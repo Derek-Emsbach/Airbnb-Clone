@@ -1,3 +1,4 @@
+// link to index
 const config = require('./index');
 
 module.exports = {
