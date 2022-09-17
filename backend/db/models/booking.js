@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Booking.belongsTo(
-        models.Spots
+        models.Spot,
+        { foreignKey: 'spotId'}
       );
       Booking.belongsTo(
         models.User,
