@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       return { id, username, firstName, lastName, email };
     }
     validatePassword(password) {
-      return bcrypt.compareSync(password, this.hashedPassword.toString());
+      return bcrypt.compareSync(password, this.password.toString());
     }
 
     static getCurrentUserById(id) {
@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         firstName,
         lastName,
         email,
-        hashedPassword
+        password: hashedPassword
       });
       return await User.scope('currentUser').findByPk(user.id);
     }
@@ -87,10 +87,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len: [3, 256]
+          len: [3, 256],
+          isEmail: true
         }
       },
-      hashedPassword: {
+      password: {
         type: DataTypes.STRING.BINARY,
         allowNull: false,
         validate: {
@@ -103,15 +104,15 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
       defaultScope: {
         attributes: {
-          exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
+          exclude: ["createdAt", "updatedAt"]
         }
       },
       scopes: {
         currentUser: {
-          attributes: { exclude: ["hashedPassword"] }
+          attributes: { exclude: ["password", "createdAt", "updatedAt"] }
         },
         loginUser: {
-          attributes: {}
+          attributes: { exclude: ["createdAt", "updatedAt"] }
         }
       }
     }
