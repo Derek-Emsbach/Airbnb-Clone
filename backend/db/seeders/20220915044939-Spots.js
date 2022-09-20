@@ -2,7 +2,7 @@
 
 const spots = [
   {
-    hostId: 1,
+    ownerId: 1,
     address: "123 Fake St",
     city: "Springfield",
     state: "Missouri",
@@ -15,7 +15,7 @@ const spots = [
     previewImage: "https://upload.wikimedia.org/wikipedia/en/c/ca/742_Evergreen_Terrace.png"
   },
   {
-    hostId: 2,
+    ownerId: 2,
     address: "4657 Raven Ave",
     city: "Durango",
     state: "Colorado",
@@ -28,7 +28,7 @@ const spots = [
     previewImage: "https://upload.wikimedia.org/wikipedia/commons/5/51/Durango_Colorado_from_Rim_Drive.jpg"
   },
   {
-    hostId: 3,
+    ownerId: 3,
     address: "977 Bear Ct",
     city: "Buffalo",
     state: "New York",

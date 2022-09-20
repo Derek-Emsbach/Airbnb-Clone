@@ -25,12 +25,12 @@ module.exports = (sequelize, DataTypes) => {
       );
       Spot.belongsTo(
         models.User,
-        { foreignKey: 'hostId' }
+        { foreignKey: 'ownerId' }
       )
     }
   }
   Spot.init({
-    hostId: {
+    ownerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
