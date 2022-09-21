@@ -12,6 +12,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      previewImage: {
+        allowNull:false,
+        defaultValue: false,
+        type: Sequelize.BOOLEAN
+      },
       reviewImagesId: {
         type: Sequelize.INTEGER
       },
