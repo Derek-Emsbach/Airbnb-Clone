@@ -33,11 +33,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     reviewImagesId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     spotImagesId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
   }, {
     sequelize,

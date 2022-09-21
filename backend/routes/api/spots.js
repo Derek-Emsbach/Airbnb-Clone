@@ -5,16 +5,29 @@ const { User, Spot, Review, Booking, Image } = require('../../db/models')
 
 
 router.get('/', async (req,res) => {
-  const allSpots = await Spot.findAll({
+  const spots = await Spot.findAll({
     include: {
       model: Image
     }
   }
   );
 
-  
+  const spotsWithPreview = []
 
-  res.json(allSpots)
+  spots.forEach(spot => {
+    spotsWithPreview.push(spot.toJSON())
+
+  })
+
+  spotsWithPreview.forEach(spot => {
+    if(Image.previewImage === true) {
+      spot.previewImage = image.url
+    }
+  })
+
+  console.log(spotsWithPreview)
+
+  res.json(spotsWithPreview)
 })
 
 // Create a Spot
@@ -43,8 +56,7 @@ router.post('/', async (req,res) => {
 
 
   // Add an Image to a Spot based on the Spot's id
-  router.post('/:spotId/images', async (req,res,next) => {
-      const user = req.user
+  router.post('/:spotId/images', requireAuth, async (req,res,next) => {
       const { spotId } = req.params
       const { url, previewImage } = req.body
       const spot = await Spot.findOne({ where: { id: spotId } })
