@@ -12,7 +12,7 @@ const spots = [
     name: "Simpson House",
     description: "Create your own iconic couch scene",
     price: 150.00,
-    // previewImage: "https://upload.wikimedia.org/wikipedia/en/c/ca/742_Evergreen_Terrace.png"
+    previewImage: "https://upload.wikimedia.org/wikipedia/en/c/ca/742_Evergreen_Terrace.png"
   },
   {
     ownerId: 2,
@@ -25,7 +25,7 @@ const spots = [
     name: "Cozy Home",
     description: "Nestled in the Rockies",
     price: 200.00,
-    // previewImage: "https://upload.wikimedia.org/wikipedia/commons/5/51/Durango_Colorado_from_Rim_Drive.jpg"
+    previewImage: "https://upload.wikimedia.org/wikipedia/commons/5/51/Durango_Colorado_from_Rim_Drive.jpg"
   },
   {
     ownerId: 3,
@@ -38,7 +38,7 @@ const spots = [
     name: "Wing House",
     description: "Big kitchen to make wings for gameday!",
     price: 215.00,
-    // previewImage: "https://www.visittheusa.com/sites/default/files/styles/hero_l/public/images/hero_media_image/2016-10/HERO%201_GettyImages-182773106_Cropped_Web72DPI.jpg?itok=wEITQRS2"
+    previewImage: "https://www.visittheusa.com/sites/default/files/styles/hero_l/public/images/hero_media_image/2016-10/HERO%201_GettyImages-182773106_Cropped_Web72DPI.jpg?itok=wEITQRS2"
   },
 ]
 

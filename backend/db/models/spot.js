@@ -70,10 +70,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL,
       allowNull: false,
     },
-    // previewImage: {
-    //   type: DataTypes.STRING,
-    //   allowNull: true
-    // }
+    previewImage: {
+      type: DataTypes.STRING,
+    }
   }, {
     sequelize,
     modelName: 'Spot',
