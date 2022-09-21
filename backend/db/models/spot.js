@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       );
       Spot.hasMany(
         models.Image,
-        { foreignKey: 'spotImagesId', onDelete: 'CASCADE',  hooks: true }
+        { as: 'SpotImages', foreignKey: 'spotImagesId', onDelete: 'CASCADE',  hooks: true }
       );
       Spot.hasMany(
         models.Review,
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       );
       Spot.belongsTo(
         models.User,
-        { foreignKey: 'ownerId' }
+        { as: 'Owner', foreignKey: 'ownerId' }
       )
     }
   }
