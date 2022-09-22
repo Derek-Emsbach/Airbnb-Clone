@@ -115,7 +115,7 @@ router.post('/', async (req,res) => {
         })
       }
 
-      const addImage = await spot.createImage({
+      const addImage = await spot.createSpotImage({
         url,
         previewImage
       })
