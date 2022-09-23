@@ -91,40 +91,42 @@ router.get("/:spotId/reviews", async (req, res) => {
 });
 
 // Get booking of spot by id
-router.get('/:spotId/bookings',requireAuth, async(req,res)=>{
-  const {spotId} = req.params
-  const {user} = req;
-  const ownerView = await Booking.findAll({
-      include:{
-          model: User,
-          attributes: ['id', 'firstName','lastName']
-      },
-      where:{spotId:spotId}
-  })
+router.get('/:id/bookings', [restoreUser, requireAuth], async (req, res, next) => {
+  const user = req.user;
+  const { id } = req.params;
 
-  const customerView = await Booking.findAll({
-      attributes: ['spotId','startDate','endDate']
-  ,
-  where:{spotId:spotId}
-  })
-  const spot = await Spot.findOne({where:{id:spotId}})
+  const spot = await Spot.findByPk(id);
+  console.log(spot)
 
-  if(!spot){
-      res.status(404).json({
-          message: "Spot couldn't be found",
-          statusCode: 404
-      })
+  if (!spot) {
+      const err = new Error("Spot not found");
+      err.message = "Spot couldn't be found";
+      err.status = 404;
+      return next(err)
   }
 
-  if(user.id !== spot.userId){
-      res.json({Bookings:customerView})
-  }
+  if (spot.ownerId === user.id) {
+      const bookings = await spot.getBooking({
+          include: [{
+              model: User,
+              attributes: { exclude: ['email', 'password', 'username', 'createdAt', 'updatedAt'] }
+          }],
+      });
 
-  if (user.id === spot.userId){
-      res.json(ownerView)
-  }
+      res.json({
+          Bookings: bookings
+      });
+  } else {
+      const bookings = await spot.getBooking({
+          attributes: ['spotId', 'startDate', 'endDate']
+      });
 
-})
+      res.json({
+          Bookings: bookings
+      });
+  }
+});
+
 
 
 // Create a Spot
