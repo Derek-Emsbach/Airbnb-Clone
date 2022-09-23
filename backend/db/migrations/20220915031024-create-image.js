@@ -12,7 +12,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      preview: {
+      previewImage: {
         allowNull:false,
         defaultValue: false,
         type: Sequelize.BOOLEAN

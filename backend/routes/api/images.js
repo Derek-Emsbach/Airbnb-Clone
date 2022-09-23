@@ -12,24 +12,24 @@ router.delete('/:reviewImageId', [requireAuth, restoreUser], async(req, res)=>{
   const image = await Image.findByPk(reviewImageId);
 
   if(!image){
-      res.json({
+      res.status(404).json({
           message: "Review Image couldn't be found",
         statusCode: 404
       })
   }
 
-  const review = await Review.findOne({
-      where:{
-              id: reviewImageId
-      }})
+//   const review = await Review.findOne({
+//       where:{
+//               id: reviewImageId
+//       }})
 
-if (review.userId !== req.user.id) {
-  res.statusCode = 403;
-  return res.json({
-    message: "Forbidden",
-    statusCode: res.statusCode,
-  });
-}
+// if (review.userId !== req.user.id) {
+//   res.statusCode = 403;
+//   return res.json({
+//     message: "Forbidden",
+//     statusCode: res.statusCode,
+//   });
+// }
 
 await image.destroy();
 res.json({

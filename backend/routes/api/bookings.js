@@ -60,13 +60,13 @@ router.delete('/:id', [restoreUser, requireAuth], async (req, res, next) => {
 
   const booking = await Booking.findByPk(id);
 
-  let currentBookedStartDate = new Date(booking.startDate);
-  let currentBookedEndDate = new Date(booking.endDate);
+  let bookStart = new Date(booking.startDate);
+  let bookEnd = new Date(booking.endDate);
 
-  let todayDate = Date.now();
+  let today = Date.now();
 
-  if ((todayDate >= currentBookedStartDate.getTime() && todayDate <= currentBookedEndDate.getTime()) ||
-      (todayDate >= currentBookedEndDate.getTime())) {
+  if ((today >= bookStart.getTime() && today <= bookEnd.getTime()) ||
+      (today >= bookEnd.getTime())) {
       const err = new Error("Bookings that have been started can't be deleted");
       err.status = 403;
       return next(err);

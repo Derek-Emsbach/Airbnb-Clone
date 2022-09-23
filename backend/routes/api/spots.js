@@ -98,7 +98,15 @@ router.get('/:spotId', async (req, res) => {
 router.get("/:spotId/reviews", async (req, res) => {
   const { spotId } = req.params;
 
-  const spotReviews = await Review.findAll({ where: { spotId } });
+  const spotReviews = await Review.findAll({
+    where: {
+      spotId
+    },
+    include: [
+      {model: User, attributes: {exclude: ['email', 'username', 'createdAt', 'updatedAt', 'hashedPassword']}},
+      {model: Image, as:'reviewImages',attributes: {include: ['id', 'url']}},
+          ]
+  });
   const findReview = await Review.findOne({ where: { spotId } });
   if (!findReview) {
     res.status(404).json({
@@ -191,10 +199,16 @@ router.post('/', async (req,res) => {
 
       const addImage = await spot.createSpotImage({
         url,
-        previewImage
+        preview: previewImage
       })
 
-      res.json(addImage)
+      const returnImage = {
+        id: addImage.id,
+        url: addImage.url,
+        preview: previewImage
+      }
+
+      res.json(returnImage)
 
     }
   )
@@ -284,7 +298,7 @@ router.post('/', async (req,res) => {
         });
       }
 
-      if (findSpot.userId === userId) {
+      if (findSpot.ownerId === userId) {
         res.status(401).json({
           message: "Unauthorized, this is your spot",
           statusCode: 401,
