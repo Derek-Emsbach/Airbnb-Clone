@@ -65,6 +65,13 @@ router.delete('/:id', [restoreUser, requireAuth], async (req, res, next) => {
 
   let today = Date.now();
 
+  if (!booking){
+    res.status(404).json({
+      message: "Booking couldn't be found",
+      statusCode: 404
+    })
+  }
+
   if ((today >= bookStart.getTime() && today <= bookEnd.getTime()) ||
       (today >= bookEnd.getTime())) {
       const err = new Error("Bookings that have been started can't be deleted");
