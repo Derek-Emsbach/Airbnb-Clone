@@ -74,6 +74,58 @@ router.get('/:spotId', async (req, res) => {
   return res.json(findSpotId)
 })
 
+// Get all Reviews by a Spot's id
+router.get("/:spotId/reviews", async (req, res) => {
+  const { spotId } = req.params;
+
+  const spotReviews = await Review.findAll({ where: { spotId } });
+  const findReview = await Review.findOne({ where: { spotId } });
+  if (!findReview) {
+    res.status(404).json({
+      message: "Spot couldn't be found",
+      statusCode: 404,
+    });
+  }
+  res.json({ spotReviews });
+});
+
+// Get booking of spot by id
+router.get('/:spotId/bookings',requireAuth, async(req,res)=>{
+  const {spotId} = req.params
+  const {user} = req;
+  const ownerView = await Booking.findAll({
+      include:{
+          model: User,
+          attributes: ['id', 'firstName','lastName']
+      },
+      where:{spotId:spotId}
+  })
+
+  const customerView = await Booking.findAll({
+      attributes: ['spotId','startDate','endDate']
+  ,
+  where:{spotId:spotId}
+  })
+  const spot = await Spot.findOne({where:{id:spotId}})
+
+  if(!spot){
+      res.status(404).json({
+          message: "Spot couldn't be found",
+          statusCode: 404
+      })
+  }
+
+  if(user.id !== spot.userId){
+      res.json({Bookings:customerView})
+  }
+
+  if (user.id === spot.userId){
+      res.json(ownerView)
+  }
+
+})
+
+
 // Create a Spot
 router.post('/', async (req,res) => {
   const user = req.user
@@ -120,13 +172,40 @@ router.post('/', async (req,res) => {
         previewImage
       })
 
-      // const image = await Image.findByPk(addImage.spotId, {
-      //   attributes: ['id', 'url']
-      // })
       res.json(addImage)
 
     }
   )
+
+    // Edit a Spot
+    router.put('/:spotId', [requireAuth, restoreUser], async (req,res,next) => {
+
+      const { spotId } = req.params
+      const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+      const spot = await Spot.findOne({ where: { id: spotId } })
+
+      if(!spot) {
+        res.status(404).json({
+          "message": "Spot couldn't be found",
+          "statusCode": 404
+        })
+      }
+
+      const updateSpot = await spot.update({
+        address: address,
+        city: city,
+        state: state,
+        country: country,
+        lat: lat,
+        lng: lng,
+        name: name,
+        description: description,
+        price: price,
+      })
+
+      res.json(updateSpot)
+    })
 
   // Create a Review for a Spot
   router.post('/:spotId/reviews', requireAuth, async (req,res) => {
@@ -136,8 +215,6 @@ router.post('/', async (req,res) => {
 
     const spot = await Spot.findByPk(spotId)
 
-    //  Error response with status 404 is given when a spot does not exist with
-    //  the provided id
     if(!spot) {
       res.status(404).json({
         "message": "Spot couldn't be found",
@@ -145,10 +222,11 @@ router.post('/', async (req,res) => {
       })
     }
 
-    // Error response with status 403 is given when a review already exists for
-    // the spot from the current user
-    const hasReview = await Review.findByPk(spotId,{
-      where: { userId: userId },
+    const hasReview = await Review.findOne({
+      where: {
+        userId: userId,
+        spotId: spotId
+       },
     });
 
     if(hasReview) {
@@ -170,37 +248,61 @@ router.post('/', async (req,res) => {
     })
 
 
+    // Create a Booking Based on a Spot Id
+    router.post("/:spotId/bookings", requireAuth, async (req, res) => {
+      const { spotId } = req.params;
+      const { startDate, endDate } = req.body;
+      const userId = req.user.id;
+      const findSpot = await Spot.findByPk(spotId);
 
-  // Edit a Spot
-  router.put('/:spotId', [requireAuth, restoreUser], async (req,res,next) => {
+      if (!findSpot) {
+        res.status(404).json({
+          message: "Spot couldn't be found",
+          statusCode: 404,
+        });
+      }
 
-    const { spotId } = req.params
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+      if (findSpot.userId === userId) {
+        res.status(401).json({
+          message: "Unauthorized, this is your spot",
+          statusCode: 401,
+        });
+      }
 
-    const spot = await Spot.findOne({ where: { id: spotId } })
+      let dateRanges = [
+        new Date(startDate).getTime(),
+        new Date(endDate).getTime(),
+      ];
 
-    if(!spot) {
-      res.status(404).json({
-        "message": "Spot couldn't be found",
-        "statusCode": 404
-      })
-    }
+      const booking = await Booking.findAll({where:{spotId}});
 
-    const updateSpot = await spot.update({
-      address: address,
-      city: city,
-      state: state,
-      country: country,
-      lat: lat,
-      lng: lng,
-      name: name,
-      description: description,
-      price: price,
-    })
 
-    res.json(updateSpot)
-  })
+      booking.forEach((booking) => {
 
+        if (
+          (booking.startDate.getTime() <= dateRanges[0] &&
+            booking.endDate.getTime() >= dateRanges[0]) ||
+          (booking.startDate.getTime() <= dateRanges[1] &&
+            booking.endDate.getTime() >= dateRanges[1]) ||
+            (booking.startDate.getTime() >= dateRanges[0] &&
+            booking.endDate.getTime() <= dateRanges[1])
+        ) {
+
+          res.status(403).json({
+            message: "Sorry, this spot is already booked for the specified dates",
+            errors: {
+              startDate: "Start date conflicts with an existing booking",
+              endDate: "End date conflicts with an existing booking",
+            },
+          });
+        }
+      });
+      const alreadyBooked = await findSpot.createBooking({ userId, startDate, endDate });
+      res.json(alreadyBooked);
+    });
+
+
+  // Delete a spot
   router.delete('/:spotId', [restoreUser, requireAuth], async (req, res) => {
     const { spotId } = req.params
     const userId = req.user.id

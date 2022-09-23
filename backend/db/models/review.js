@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       );
       Review.hasMany(
         models.Image,
-        { foreignKey: 'reviewImagesId' }
+        { as: 'reviewImages', foreignKey: 'reviewImagesId' }
       )
     }
   }

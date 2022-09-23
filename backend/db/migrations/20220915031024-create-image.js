@@ -18,9 +18,11 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       reviewImagesId: {
+        allowNull: true,
         type: Sequelize.INTEGER
       },
       spotImagesId: {
+        allowNull: true,
         type: Sequelize.INTEGER
       },
       createdAt: {

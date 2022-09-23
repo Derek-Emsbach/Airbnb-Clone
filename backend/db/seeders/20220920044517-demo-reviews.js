@@ -15,6 +15,13 @@ module.exports = {
         review: "Beter than I could have imagined",
         stars: 5,
       },
+      {
+        userId: 3,
+        spotId: 3,
+        review: "Beter than I could have imagined",
+        stars: 5,
+      },
+    
 
   ])
   },
