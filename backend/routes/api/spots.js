@@ -7,7 +7,23 @@ const { User, Spot, Review, Booking, Image, sequelize } = require('../../db/mode
 
 
 router.get('/', async (req,res) => {
-  const spots = await Spot.findAll({
+
+  let query = {
+		where: {},
+	};
+
+	const page = req.query.page === undefined ? 0 : parseInt(req.query.page);
+	const size = req.query.size === undefined ? 20 : parseInt(req.query.size);
+
+	if (page >= 1 && size >= 1) {
+		query.limit = size;
+		query.offset = size * (page - 1);
+	}
+
+	if (req.query.title) query.where.title = req.query.title;
+	if (req.query.createdAt) query.where.createdAt = req.query.createdAt;
+
+  const spots = await Spot.findAll(query,{
     // include: {
     //   model: Image
     // }
@@ -74,6 +90,9 @@ router.get('/:spotId', async (req, res) => {
 
   return res.json(findSpotId)
 })
+
+
+
 
 // Get all Reviews by a Spot's id
 router.get("/:spotId/reviews", async (req, res) => {
