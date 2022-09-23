@@ -62,7 +62,8 @@ router.get('/:spotId', async (req, res) => {
       {model: Image, as: 'SpotImages', attributes: {exclude: ['spotImagesId', 'reviewImagesId', 'createdAt', 'updatedAt']}},
       {model: User, as: 'Owner', attributes: {exclude: ['email', 'username', 'createdAt', 'updatedAt', 'password']} },
       {model: Review, attributes: {exclude: ['id', 'review', 'stars', 'userId', 'spotId', 'createdAt', 'updatedAt']}}
-    ]
+    ],
+    group: ['Spot.id', 'Owner.id','SpotImages.id']
   });
   if(!isValid){
     return res.status(404).json({
