@@ -55,36 +55,24 @@ const {bookingId} = req.params
 })
 
 // Delete an existing booking
-router.delete('/:id', [restoreUser, requireAuth], async (req, res, next) => {
-  const { id } = req.params;
+router.delete('/:bookingId',requireAuth, async (req,res)=>{
+  const {user} = req
+  const {bookingId} = req.params
+    const existingBooking = await Booking.findOne({where:{id:bookingId, userId:user.id},})
+    if (!existingBooking){
+      res.status(404).json({
+        message: "Booking couldn't be found",
+        statusCode: 404
+      })
+    }
 
-  const booking = await Booking.findByPk(id);
+    await existingBooking.destroy()
 
-  let bookStart = new Date(booking.startDate);
-  let bookEnd = new Date(booking.endDate);
-
-  let today = Date.now();
-
-  if (!booking){
-    res.status(404).json({
-      message: "Booking couldn't be found",
-      statusCode: 404
-    })
-  }
-
-  if ((today >= bookStart.getTime() && today <= bookEnd.getTime()) ||
-      (today >= bookEnd.getTime())) {
-      const err = new Error("Bookings that have been started can't be deleted");
-      err.status = 403;
-      return next(err);
-  }
-
-  await booking.destroy();
-
-  res.json({
+    return res.json({
       message: "Successfully deleted",
       statusCode: 200
-  });
-});
+    })
+
+})
 
 module.exports = router;

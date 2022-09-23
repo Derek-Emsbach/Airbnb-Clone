@@ -74,15 +74,20 @@ router.post('/:reviewId/images', [requireAuth, restoreUser], async (req,res) => 
 })
 
 // Delete an existing review
-router.delete('/:id', [restoreUser, requireAuth], async (req, res) => {
-  const { id } = req.params;
-
-  const review = await Review.findByPk(id);
-  await review.destroy();
+router.delete("/:reviewId", requireAuth, async (req, res) => {
+  const { reviewId } = req.params;
+  const currentReview = await Review.findByPk(reviewId);
+  if (!currentReview) {
+    res.status(404).json({
+      message: "Review couldn't be found",
+      statusCode: 404,
+    });
+  }
+  currentReview.destroy();
 
   res.json({
-      message: "Successfully deleted",
-      statusCode: 200
+    message: "Successfully deleted",
+    statusCode: 200,
   });
 });
 
