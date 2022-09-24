@@ -64,31 +64,40 @@ router.get('/current', [restoreUser, requireAuth], async (req, res) => {
 })
 
 // Get details of a Spot from an id
-router.get('/:spotId', async (req, res) => {
-  const { spotId } = req.params
-  const isValid = await Spot.findByPk(spotId)
-  const findSpotId = await Spot.findByPk(spotId,{
-    attributes: {
-      include:[
-        [sequelize.fn('COUNT', sequelize.col('Reviews.id')), 'numReviews'],
-        [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgStarRating'],
-      ]
-    },
-    include: [
-      {model: Image, as: 'SpotImages', attributes: {exclude: ['spotImagesId', 'reviewImagesId', 'createdAt', 'updatedAt']}},
-      {model: User, as: 'Owner', attributes: {exclude: ['email', 'username', 'createdAt', 'updatedAt', 'password']} },
-      {model: Review, attributes: {exclude: ['id', 'review', 'stars', 'userId', 'spotId', 'createdAt', 'updatedAt']}}
-    ],
-    group: ['Spot.id', 'Owner.id','SpotImages.id']
-  });
-  if(!isValid){
-    return res.status(404).json({
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    })
-  }
-	
-let spotList = [];
+router.get('/:spotId', async(req, res, next)=>{
+    const { spotId } = req.params;
+    //find spot
+    const spot = await Spot.findAll({
+        where: {
+            id: spotId
+        },
+
+        include: [
+            {model: Image, as: 'SpotImages'},
+            {model: User, as: 'Owner', attributes: {exclude: ['email', 'username', 'createdAt', 'updatedAt', 'hashedPassword']} },
+            {model: Review, attributes: []}
+        ],
+        attributes: {
+            include:[
+             [sequelize.fn('COUNT', sequelize.col('Reviews.id')), 'numReviews'],
+             [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgStarRating'],
+             ],
+             exclude: ['avgRating']
+        },
+        group: ['Spot.id', 'Owner.id','SpotImages.id']
+    });
+
+    console.log(spot, "spot")
+    //if spot doesn't exist
+    if(!spot.length){
+    res.status(404).json({
+        message: "Spot couldn't be found",
+    	statusCode: 404
+        })
+    }
+
+    // push spot to an array as a .JSON obj
+    let spotList = [];
 
     spot.forEach(item =>{
         spotList.push(item.toJSON()) // is an obj that we can manipulate, push to list; array of objs
@@ -110,11 +119,10 @@ let spotList = [];
             }
 
         })
-            
-	return res.status(200).json(spotList)
-	
+            res.status(200).json(spotList)
 
-})
+    })
+
 
 
 
