@@ -220,36 +220,42 @@ router.post('/', async (req,res) => {
 
 
   // Add an Image to a Spot based on the Spot's id
-  router.post("/:spotId/images", requireAuth, async (req, res) => {
-  const { spotId } = req.params;
-  const { url, previewImage } = req.body;
-  const spot = await Spot.findOne({ where: { id: spotId }
+  router.post('/:spotId/images',requireAuth, restoreUser, async(req, res)=>{
+    const {url, previewImage} = req.body;
+    const { spotId } = req.params;
+    const userId = req.user.id
 
+    const spot = await Spot.findByPk(spotId,{
+        where:{
+            userId: req.user.id
+        },
+        include: {model: Image, as: 'SpotImages'} //added image model here
+    })
 
-}
+    // //error if no spot found
+       if(!spot){
+        res.status(404).json({
+            message: "Spot couldn't be found",
+	        statusCode: 404
+        })
+    }
+    //add image
+    const newImage = await spot.createSpotImage({
+        spotId,
+        url,
+        preview: previewImage
+    })
 
-
-);
-  if (!spot) {
-    res.status(404).json({
-      message: "Spot couldn't be found",
-      statusCode: 404,
-    });
-  }
-
-  const newImage = await spot.createSpotImage({ url, previewImage });
-
-const finalImage = {
+    //create payload for desired output
+    const payload = {
         id: newImage.id,
         url: newImage.url,
         preview: newImage.preview
     }
 
-    return res.json(finalImage)
+    return res.json(payload)
 
-  res.json(newImage);
-});
-
+})
     // Edit a Spot
     router.put('/:spotId', [requireAuth, restoreUser], async (req,res,next) => {
 
