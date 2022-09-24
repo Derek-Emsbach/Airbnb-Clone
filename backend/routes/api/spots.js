@@ -71,7 +71,7 @@ router.get('/current',restoreUser,requireAuth, async(req, res)=>{
     userSpots.forEach((spot)=>{
         spot.SpotImages.forEach((image)=>{
         if (image.preview === true) {
-            spot.preview = image.url;
+            spot.previewImage = image.url;
         }
     });
     //if no preview image
