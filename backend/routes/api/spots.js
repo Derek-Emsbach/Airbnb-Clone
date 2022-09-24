@@ -201,7 +201,13 @@ router.post('/', async (req,res) => {
 
   const newImage = await spot.createSpotImage({ url, previewImage });
 
+const finalImage = {
+        id: newImage.id,
+        url: newImage.url,
+        preview: newImage.preview
+    }
 
+    return res.json(finalImage)
 
   res.json(newImage);
 });
