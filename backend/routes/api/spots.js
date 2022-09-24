@@ -264,14 +264,14 @@ router.post('/', async (req,res) => {
     const newImage = await spot.createSpotImage({
         spotId,
         url,
-        preview: previewImage
+        previewImage
     })
 
     //create payload for desired output
     const payload = {
         id: newImage.id,
         url: newImage.url,
-        preview: newImage.preview
+        preview: newImage.previewImage
     }
 
     return res.json(payload)
