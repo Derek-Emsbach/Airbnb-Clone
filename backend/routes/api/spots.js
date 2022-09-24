@@ -87,8 +87,33 @@ router.get('/:spotId', async (req, res) => {
       "statusCode": 404
     })
   }
+	
+let spotList = [];
 
-  return res.json(findSpotId)
+    spot.forEach(item =>{
+        spotList.push(item.toJSON()) // is an obj that we can manipulate, push to list; array of objs
+    })
+    //find and identify the item/spot and then iterate through the SpotImages array
+        spotList.forEach(item =>{
+            item.SpotImages.forEach(image =>{  // loop over Images array
+                if(image.preview === true){
+                    item.previewImage = image.url //set item/spot preview image to image.url if preview is true
+                }
+            });
+            //if item/spot doesn't have a previw image, set the property
+            if(!item.previewImage){
+                item.previewImage ="There is no preview image for the spot yet."
+            }
+            //if no avgStarRating, either say so, or if there is, assign it
+             if(!item.avgStarRating){
+                item.avgStarRating = 0
+            }
+
+        })
+            
+	return res.status(200).json(spotList)
+	
+
 })
 
 
