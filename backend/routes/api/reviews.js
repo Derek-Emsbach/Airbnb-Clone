@@ -64,7 +64,7 @@ router.post('/:reviewId/images', requireAuth, restoreUser, async(req, res)=>{
 
     const greaterThanTenImages = await Image.findAll({
         where:{
-            reviewId:reviewId
+            reviewImagesId:reviewId
         }
         })
     if(greaterThanTenImages.length >= 10 ){
