@@ -50,17 +50,37 @@ router.get('/', async (req,res) => {
 
 
 // Get all Spots owned by the Current User
-router.get('/current', [restoreUser, requireAuth], async (req, res) => {
+router.get('/current',restoreUser,requireAuth, async(req, res)=>{
+    const userId = req.user.id
+    //console.log(req.user)
+    const spots = await Spot.findAll({
+        where:{
+            userId: req.user.id
+        },
+        attributes:['id','userId','address','city','state','country','lat','lng','name','description','price','avgRating','previewImage','createdAt','updatedAt'],
 
-  const user = req.user
+        include: {model: Image, as: 'SpotImages'}
+    })
 
-  const userSpots = await Spot.findAll({
-    where: { ownerId: user.id }
-  })
+    //add preview image
+    let userSpots = [];
+        spots.forEach((spot)=>{
+        userSpots.push(spot.toJSON())
+    })
 
-  res.json({
-    Spots: userSpots
-  })
+    userSpots.forEach((spot)=>{
+        spot.SpotImages.forEach((image)=>{
+        if (image.preview === true) {
+            spot.previewImage = image.url;
+        }
+    });
+    //if no preview image
+    if (!spot.previewImage) {
+        spot.previewImage = "There is no preview image for the spot yet.";
+        }
+        delete spot.SpotImages;
+    })
+    return res.status(200).json(userSpots)
 })
 
 // Get details of a Spot from an id
