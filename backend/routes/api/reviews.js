@@ -52,7 +52,7 @@ router.post('/:reviewId/images', requireAuth, restoreUser, async(req, res)=>{
     //get review of current user
     const review = await Review.findByPk(reviewId, {
         where: {
-            ownerId: req.user.id
+            userId: req.user.id
         }
     })
 
