@@ -65,8 +65,7 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       previewImage: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: Sequelize.STRING
       }
     });
   },
