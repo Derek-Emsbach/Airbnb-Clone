@@ -248,7 +248,7 @@ router.post('/', async (req,res) => {
 
     const spot = await Spot.findByPk(spotId,{
         where:{
-            userId: req.user.id
+            ownerId: req.user.id
         },
         include: {model: Image, as: 'SpotImages'} //added image model here
     })
