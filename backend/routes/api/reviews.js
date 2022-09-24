@@ -18,7 +18,7 @@ router.get('/current', requireAuth, restoreUser, async(req, res)=>{
         include: [
             {model: User, attributes: {exclude: ['email', 'username', 'createdAt', 'updatedAt', 'hashedPassword']}},
             {model: Spot, attributes: {exclude: ['description', 'avgRating', 'createdAt', 'updatedAt']}},
-            {model: Image, as:'ReviewImages', attributes: ['id', 'url']},
+            {model: Image, as:'reviewImages', attributes: ['id', 'url']},
                 ]
     })
     return res.json(reviews)
