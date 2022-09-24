@@ -70,7 +70,7 @@ router.get('/current',restoreUser,requireAuth, async(req, res)=>{
 
     userSpots.forEach((spot)=>{
         spot.SpotImages.forEach((image)=>{
-        if (image.preview === true) {
+        if (image.previewImage === true) {
             spot.previewImage = image.url;
         }
     });
@@ -125,7 +125,7 @@ router.get('/:spotId', async(req, res, next)=>{
     //find and identify the item/spot and then iterate through the SpotImages array
         spotList.forEach(item =>{
             item.SpotImages.forEach(image =>{  // loop over Images array
-                if(image.preview === true){
+                if(image.previewImage === true){
                     item.previewImage = image.url //set item/spot preview image to image.url if preview is true
                 }
             });
