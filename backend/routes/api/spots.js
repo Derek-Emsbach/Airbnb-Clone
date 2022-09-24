@@ -50,38 +50,41 @@ router.get('/', async (req,res) => {
 
 
 // Get all Spots owned by the Current User
-router.get('/current',restoreUser,requireAuth, async(req, res)=>{
-    const userId = req.user.id
-    //console.log(req.user)
-    const spots = await Spot.findAll({
-        where:{
-            userId: req.user.id
-        },
-        attributes:['id','ownerId','address','city','state','country','lat','lng','name','description','price','avgRating','previewImage','createdAt','updatedAt'],
+router.get("/current", requireAuth, async (req, res) => {
+  const {user} = req
+  const spots = await Spot.findAll({ 
+    include: {
+        model: Image,
+        attributes:['id','url', 'previewImage']
+      },
+    where: { userId: user.id } });
 
-        include: {model: Image, as: 'SpotImages'}
-    })
+    
+let spotList = [];
 
-    //add preview image
-    let userSpots = [];
-        spots.forEach((spot)=>{
-        userSpots.push(spot.toJSON())
-    })
+spots.forEach((spot) => {
+  spotList.push(spot.toJSON());
+});
 
-    userSpots.forEach((spot)=>{
-        spot.SpotImages.forEach((image)=>{
-        if (image.preview === true) {
-            spot.previewImage = image.url;
-        }
-    });
-    //if no preview image
-    if (!spot.previewImage) {
-        spot.previewImage = "There is no preview image for the spot yet.";
-        }
-        delete spot.SpotImages;
-    })
-    return res.status(200).json(userSpots)
-})
+spotList.forEach((spot) => {
+  spot.Images.forEach((image) => {
+    // console.log(image.preview)
+    if (image.previewImage === true) {
+      spot.previewImage = image.url;
+    }
+
+    delete spot.avgRating
+  });
+
+  if (!spot.previewImage) {
+    spot.previewImage = "no preview image found";
+  }
+
+
+
+});
+  res.json({spotList});
+});
 
 // Get details of a Spot from an id
 router.get('/:spotId', async(req, res, next)=>{
