@@ -12,7 +12,7 @@ router.get('/current', [requireAuth, restoreUser], async (req,res) => {
   const userId = req.user.id
   const reviews = await Review.findAll({
     where: {
-      userId: userId
+      ownerId: userId
     },
     include: [
       {model: User, attributes: {exclude: ['email', 'username', 'createdAt', 'updatedAt', 'password']}},
@@ -44,35 +44,51 @@ router.put('/:reviewId', [restoreUser, requireAuth], async (req,res)=>{
 
 
 // Create an Image for a Review
-router.post('/:reviewId/images', [requireAuth, restoreUser], async (req,res) => {
-  const { reviewId } = req.params
-  console.log(reviewId)
-  const { url, previewImage } = req.body
-
-  const review = await Review.findByPk(reviewId)
-
-  const reviewNumImages = await Image.findAll({where:{reviewImagesId:reviewId}})
-
-  if(reviewNumImages.length >= 10) {
-    return res.status(403).json({
-      "message": "Maximum number of images for this resource was reached",
-      "statusCode": 403
+router.post('/:reviewId/images', requireAuth, restoreUser, async(req, res)=>{
+    const userId = req.user.id
+    const {reviewId} = req.params
+    const {url} = req.body
+    //get review of current user
+    const review = await Review.findByPk(reviewId, {
+        where: {
+            ownerId: req.user.id
+        }
     })
-  } else if(!review){
-    return res.status(404).json({
-      "message": "Review couldn't be found",
-      "statusCode": 404
 
-    })
-  }
-  const reviewImage = await review.createReviewImage({
-    url,
-    previewImage
-  })
+    if(!review){
+    res.status(404).json({
+            message: "Review couldn't be found",
+	        statusCode: 404
+        })
+    }
 
-  res.json(reviewImage)
+    const greaterThanTenImages = await Image.findAll({
+        where:{
+            reviewId:reviewId
+        }
+        })
+    if(greaterThanTenImages.length >= 10 ){
+            res.status(403).json({
+             message: "Maximum number of images for this resource was reached",
+             statusCode: 403
+             })
+     }
+  
+    const newImage = await review.createReviewImage({
+            reviewId, //added reviewId to response
+            url
+        });
+
+ 
+    const finalReview = {
+        id: newImage.id,
+        url: newImage.url
+
+    }
+        res.status(200),
+        res.json(finalReview)
+
 })
-
 // Delete an existing review
 router.delete("/:reviewId", requireAuth, async (req, res) => {
   const { reviewId } = req.params;
