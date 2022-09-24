@@ -45,51 +45,30 @@ router.put('/:reviewId', [restoreUser, requireAuth], async (req,res)=>{
 
 
 // Create an Image for a Review
-router.post('/:reviewId/images', requireAuth, restoreUser, async(req, res)=>{
-    const userId = req.user.id
-    const {reviewId} = req.params
-    const {url} = req.body
-    //get review of current user
-    const review = await Review.findByPk(reviewId, {
-        where: {
-            userId: req.user.id
-        }
-    })
+router.post("/:reviewId/images", requireAuth, async (req, res) => {
+  const { reviewId } = req.params;
+  const { url, previewImage } = req.body;
+  const reviews = await Review.findOne({ where: { id: reviewId } });
+  const maxImages = await Image.findAll({ where: { reviewImageId: reviewId } });
 
-    if(!review){
+  if (maxImages.length >= 10) {
+    return res.status(403).json({
+      message: "Maximum number of images for this resource was reached",
+      statusCode: 403,
+    });
+  }
+  if (!reviews) {
     res.status(404).json({
-            message: "Review couldn't be found",
-	        statusCode: 404
-        })
-    }
+      message: "Review couldn't be found",
+      statusCode: 404,
+    });
+  }
 
-    const greaterThanTenImages = await Image.findAll({
-        where:{
-            reviewImagesId:reviewId
-        }
-        })
-    if(greaterThanTenImages.length >= 10 ){
-            res.status(403).json({
-             message: "Maximum number of images for this resource was reached",
-             statusCode: 403
-             })
-     }
-  
-    const newImage = await review.createReviewImage({
-            reviewId, //added reviewId to response
-            url
-        });
+  const addImage = await reviews.createImage({ url, previewImage });
+  res.json(addImage);
+});
 
- 
-    const finalReview = {
-        id: newImage.id,
-        url: newImage.url
 
-    }
-        res.status(200),
-        res.json(finalReview)
-
-})
 // Delete an existing review
 router.delete("/:reviewId", requireAuth, async (req, res) => {
   const { reviewId } = req.params;
