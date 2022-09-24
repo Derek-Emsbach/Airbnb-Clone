@@ -70,7 +70,7 @@ router.get('/current',restoreUser,requireAuth, async(req, res)=>{
 
     userSpots.forEach((spot)=>{
         spot.SpotImages.forEach((image)=>{
-        if (image.preview === true) {
+        if (image.previewImage === true) {
             spot.previewImage = image.url;
         }
     });
@@ -268,13 +268,13 @@ router.post('/', async (req,res) => {
     })
 
     //create payload for desired output
-    const payload = {
-        id: newImage.id,
-        url: newImage.url,
-        preview: newImage.previewImage
-    }
+//     const payload = {
+//         id: newImage.id,
+//         url: newImage.url,
+//         preview: newImage.previewImage
+//     }
 
-    return res.json(payload)
+    return res.json(newImage)
 
 })
     // Edit a Spot
