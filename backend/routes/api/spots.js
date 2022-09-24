@@ -199,7 +199,7 @@ router.post('/', async (req,res) => {
     });
   }
 
-  const newImage = await spot.createImage({ url, previewImage });
+  const newImage = await spot.createSpotImage({ url, previewImage });
 
 
 
