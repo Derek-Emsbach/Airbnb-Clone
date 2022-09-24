@@ -217,7 +217,7 @@ router.get('/:id/bookings', [restoreUser, requireAuth], async (req, res, next) =
 // Create a Spot
 router.post('/', async (req,res) => {
   const user = req.user
-  const { address, city, state, country, lat, lng, name, description, price } = req.body
+  const { address, city, state, country, lat, lng, name, description, price, avgRating } = req.body
 
   const createSpot = await Spot.create({
     ownerId: user.id,
