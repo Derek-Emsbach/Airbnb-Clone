@@ -8,20 +8,20 @@ const { Op } = require("sequelize");
 
 const router = express.Router();
 
-router.get('/current', [requireAuth, restoreUser], async (req,res) => {
-  const userId = req.user.id
-  const reviews = await Review.findAll({
-    where: {
-      ownerId: userId
-    },
-    include: [
-      {model: User, attributes: {exclude: ['email', 'username', 'createdAt', 'updatedAt', 'password']}},
-      {model: Spot, attributes: {exclude: ['description', 'avgRating', 'previewImage', 'createdAt', 'updatedAt']}},
-      {model: Image, as:'reviewImages', attributes: ['id', 'url']},
-          ]
-  })
-  return res.json(reviews)
-})
+router.get("/current", requireAuth, async (req, res) => {
+  const { user } = req;
+
+  const review = await Review.findAll({
+    include:[
+        {model: User, attributes: ['id','firstName','lastName']},
+        {model:Spot, attributes:['id','ownerId','address','city','state','country','lat','lng','name','price']},
+        {model: Image, attributes:['id','url']}
+    ],
+     where: { userId: user.id } 
+  });
+
+  res.json({ review });
+});
 
 // Edit a Review
 router.put('/:reviewId', [restoreUser, requireAuth], async (req,res)=>{
