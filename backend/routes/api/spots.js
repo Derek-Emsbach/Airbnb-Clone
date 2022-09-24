@@ -229,7 +229,8 @@ router.post('/', async (req,res) => {
     lng,
     name,
     description,
-    price
+    price,
+	  avgRating
   })
   const spot = await Spot.findByPk(createSpot.id, {
     attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt']
