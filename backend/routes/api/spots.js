@@ -140,6 +140,11 @@ router.get("/:spotId/reviews", async (req, res) => {
       {model: Image, as:'reviewImages',attributes: {include: ['id', 'url']}},
           ]
   });
+  const existingReview = await Review.findOne({
+        where:{
+            spotId: spotId,
+            userId: req.user.id
+        }})
   const findReview = await Review.findOne({ where: { spotId } });
   if (!findReview) {
     res.status(404).json({
@@ -298,7 +303,7 @@ const finalImage = {
     });
 
     if(hasReview) {
-      res.status(403).json({
+      return res.status(403).json({
         "message": "User already has a review for this spot",
         "statusCode": 403
       })
