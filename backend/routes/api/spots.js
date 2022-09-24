@@ -57,7 +57,7 @@ router.get('/current',restoreUser,requireAuth, async(req, res)=>{
         where:{
             userId: req.user.id
         },
-        attributes:['id','userId','address','city','state','country','lat','lng','name','description','price','avgRating','previewImage','createdAt','updatedAt'],
+        attributes:['id','ownerId','address','city','state','country','lat','lng','name','description','price','avgRating','previewImage','createdAt','updatedAt'],
 
         include: {model: Image, as: 'SpotImages'}
     })
