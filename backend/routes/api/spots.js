@@ -55,7 +55,7 @@ router.get('/current',restoreUser,requireAuth, async(req, res)=>{
     //console.log(req.user)
     const spots = await Spot.findAll({
         where:{
-            userId: userId
+            ownerId: userId
         },
         attributes:['id','ownerId','address','city','state','country','lat','lng','name','description','price','avgRating','previewImage','createdAt','updatedAt'],
 
