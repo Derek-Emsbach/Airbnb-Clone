@@ -267,12 +267,9 @@ router.post('/', async (req,res) => {
         previewImage
     })
 
-    //create payload for desired output
-//     const payload = {
-//         id: newImage.id,
-//         url: newImage.url,
-//         preview: newImage.previewImage
-//     }
+   await spot.update({
+    previewImage: url
+   })
 
     return res.json(newImage)
 

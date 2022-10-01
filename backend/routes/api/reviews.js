@@ -49,7 +49,7 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
   const { reviewId } = req.params;
   const { url, previewImage } = req.body;
   const reviews = await Review.findOne({ where: { id: reviewId } });
-  const maxImages = await Image.findAll({ where: { reviewImageId: reviewId } });
+  const maxImages = await Image.findAll({ where: { reviewImagesId: reviewId } });
 
   if (maxImages.length >= 10) {
     return res.status(403).json({
@@ -64,7 +64,12 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
     });
   }
 
-  const addImage = await reviews.createImage({ url, previewImage });
+  const addImage = await reviews.createReviewImage({ url, previewImage });
+
+  await reviews.update({
+    previewImage: url
+  })
+
   res.json(addImage);
 });
 
