@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-![DB-Diagram](./db-diagram/DB-Diagram-airbnb.png "DB Diagram")
+![DB-Diagram](./z-db-diagram/DB-Diagram-airbnb.png "DB Diagram")
 
 ## API Documentation
 
