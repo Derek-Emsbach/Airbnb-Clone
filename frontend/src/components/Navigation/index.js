@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
+import logo from '../../assets/abnb-logo.png'
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
@@ -24,7 +25,8 @@ function Navigation({ isLoaded }){
   return (
     <ul>
       <li className="navLinks">
-        <NavLink exact to="/">Spots</NavLink>
+        <NavLink exact to="/"><img className="logo" src={logo} alt="" /></NavLink>
+        <NavLink exact to='/spots/create'>Become a Host</NavLink>
         {isLoaded && sessionLinks}
       </li>
     </ul>

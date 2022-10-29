@@ -19,10 +19,10 @@ module.exports = (sequelize, DataTypes) => {
         models.Image,
         { as: 'SpotImages', foreignKey: 'spotImagesId', onDelete: 'CASCADE',  hooks: true }
       );
-      Spot.hasMany(
-        models.Review,
-        { foreignKey: 'spotId', onDelete: 'CASCADE',  hooks: true }
-      );
+      // Spot.hasMany(
+      //   models.Review,
+      //   { foreignKey: 'spotId', onDelete: 'CASCADE',  hooks: true }
+      // );
       Spot.belongsTo(
         models.User,
         { as: 'Owner', foreignKey: 'ownerId' }
@@ -70,9 +70,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL,
       allowNull: false,
     },
-    avgRating: {
-      type: DataTypes.DECIMAL,
-      allowNull: true},
+    // avgRating: {
+    //   type: DataTypes.DECIMAL,
+    //   allowNull: true},
     previewImage: {
       type: DataTypes.STRING,
     }

@@ -1,0 +1,35 @@
+.spots {
+  /* border: 2px solid black; */
+}
+
+.spotList {
+  /* border: 2px solid black; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: space-between;
+  flex-direction: row;
+  list-style: none;
+}
+
+.singleSpot {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.cropImg {
+  /* border: 2px solid black; */
+  /* width: 33%; */
+  height: 250px;
+  width: 250px;
+  border-radius: 10px;
+  list-style: none;
+  position: relative;
+  overflow: hidden;
+}
+.spotImg {
+  object-fit: cover;
+  height: 300px;
+  width: 300px;
+  /* border-radius: 10px; */
+}

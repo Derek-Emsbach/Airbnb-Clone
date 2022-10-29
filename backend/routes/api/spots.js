@@ -57,7 +57,7 @@ router.get('/current',restoreUser,requireAuth, async(req, res)=>{
         where:{
             ownerId: userId
         },
-        attributes:['id','ownerId','address','city','state','country','lat','lng','name','description','price','avgRating','previewImage','createdAt','updatedAt'],
+        attributes:['id','ownerId','address','city','state','country','lat','lng','name','description','price','previewImage','createdAt','updatedAt'],
 
         include: {model: Image, as: 'SpotImages'}
     })
@@ -217,7 +217,7 @@ router.get('/:id/bookings', [restoreUser, requireAuth], async (req, res, next) =
 // Create a Spot
 router.post('/', async (req,res) => {
   const user = req.user
-  const { address, city, state, country, lat, lng, name, description, price, avgRating } = req.body
+  const { address, city, state, country, lat, lng, name, description, price, avgRating, previewImage } = req.body
 
   const createSpot = await Spot.create({
     ownerId: user.id,
@@ -230,10 +230,11 @@ router.post('/', async (req,res) => {
     name,
     description,
     price,
-	  avgRating
+	  // avgRating,
+    previewImage
   })
   const spot = await Spot.findByPk(createSpot.id, {
-    attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt']
+    attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'previewImage', 'createdAt', 'updatedAt']
   })
 
   res.json(spot)

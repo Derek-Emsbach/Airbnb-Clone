@@ -1,28 +1,33 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
 import { getSpots } from "../../store/spots"
+import './Spots.css'
 
 const SpotsBrowser = () => {
   const dispatch = useDispatch()
 
-  const spots = useSelector((state) => Object.values(state.spots))
+  const allSpots = useSelector((state) => Object.values(state.spots))
+
+  // console.log(allSpots)
 
   useEffect(() => {
     dispatch(getSpots())
   }, [dispatch])
 
   return (
-    <div>
-      <ul>
-        {spots.map((spot) => {
-          <li key={spot.id}>
-            <div>
-              <div>{spot.name}</div>
+    <div className="spots">
+      <ul className="spotList">
+        {allSpots.map((spot) => (
+          <li key={spot.id} className="singleSpot">
+            <div className="cropImg">
+              <img src={spot.previewImage} className="spotImg" alt="preview"></img>
             </div>
+            <div className="spot-description">{spot.city}, {spot.state}</div>
+            <div>${spot.price} night</div>
           </li>
-        })}
+        ))}
       </ul>
+
     </div>
   )
 }
