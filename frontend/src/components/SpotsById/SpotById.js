@@ -1,12 +1,14 @@
-import { useHistory, useParam } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { getSpotById } from '../../store/spots';
 
 const SpotById = () => {
-  const { spotId } = useParam()
+  const { spotId } = useParams()
   const dispatch = useDispatch()
   const history = useHistory()
   const spot = useSelector(state => state.spots[spotId])
-  const sessionUser = useSelector((state) => state.sessionUser.user)
+  // const sessionUser = useSelector((state) => state.sessionUser.user)
 
   useEffect(() => {
     dispatch(getSpotById(spotId));

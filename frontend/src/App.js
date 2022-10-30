@@ -7,6 +7,7 @@ import SignupFormPage from './components/SignupFormPage';
 import CreateSpotForm from './components/CreateSpotForm.js';
 import * as sessionActions from "./store/session";
 import SpotsBrowser from './components/Spots/index';
+import SpotById from './components/SpotsById/SpotById';
 
 function App() {
   const dispatch = useDispatch()
@@ -19,7 +20,7 @@ function App() {
     <Navigation isLoaded={isLoaded} />
     {isLoaded && (
       <Switch>
-        <Route exact path={['/', '/spots']}>
+        <Route exact path='/'>
           <SpotsBrowser />
         </Route>
         <Route path="/login">
@@ -29,8 +30,17 @@ function App() {
           <SignupFormPage />
         </Route>
         <Route>
+          <SpotById path='/spots/:spotId' />
+        </Route>
+        <Route>
           <CreateSpotForm exact path='/spots/create'/>
         </Route>
+        {/* <Route>
+          <SpotById exact path='/spots/:spotId' />
+        </Route>
+        <Route>
+          <SpotById exact path='/spots/:spotId' />
+        </Route> */}
       </Switch>
     )}
     </>
