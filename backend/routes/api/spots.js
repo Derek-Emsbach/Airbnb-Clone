@@ -107,7 +107,7 @@ router.get('/:spotId', async(req, res, next)=>{
         group: ['Spot.id', 'Owner.id','SpotImages.id']
     });
 
-    console.log(spot, "spot")
+    // console.log(spot, "spot")
     //if spot doesn't exist
     if(!spot.length){
     res.status(404).json({

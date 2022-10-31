@@ -8,6 +8,8 @@ import CreateSpotForm from './components/CreateSpotForm.js';
 import * as sessionActions from "./store/session";
 import SpotsBrowser from './components/Spots/index';
 import SpotById from './components/SpotsById/SpotById';
+import SpotEditForm from './components/SpotsEdit/SpotEditForm'
+import SpotDelete from './components/SpotsDelete/SpotDelete'
 
 function App() {
   const dispatch = useDispatch()
@@ -20,27 +22,27 @@ function App() {
     <Navigation isLoaded={isLoaded} />
     {isLoaded && (
       <Switch>
-        <Route exact path='/'>
-          <SpotsBrowser />
-        </Route>
-        <Route path="/login">
+        <Route exact path="/login">
           <LoginFormPage />
         </Route>
-        <Route path='/signup'>
+        <Route exact path='/signup'>
           <SignupFormPage />
         </Route>
-        <Route>
-          <SpotById path='/spots/:spotId' />
+        <Route exact path={['/', 'spots']}>
+          <SpotsBrowser />
         </Route>
-        <Route>
-          <CreateSpotForm exact path='/spots/create'/>
+        <Route exact path='/spots/:spotId'>
+          <SpotById />
+        </Route>
+        <Route exact path='/spots/create'>
+          <CreateSpotForm />
         </Route>
         {/* <Route>
-          <SpotById exact path='/spots/:spotId' />
-        </Route>
-        <Route>
-          <SpotById exact path='/spots/:spotId' />
+          <SpotEditForm exact path='/spots/:spotId' />
         </Route> */}
+        <Route>
+          <SpotDelete exact path='/spots/:spotId/delete' />
+        </Route>
       </Switch>
     )}
     </>
