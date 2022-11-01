@@ -12,8 +12,8 @@ const SpotById = () => {
   useEffect(() => {
     dispatch(getSpotById(spotId));
   }, [dispatch, spotId]);
-  console.log(spotId)
-  console.log(spot)
+  // console.log(spotId)
+  // console.log(spot)
 
   const editSpot = () => {
 		let path = `/spots/${spotId}/edit`;
@@ -28,7 +28,6 @@ const SpotById = () => {
 
   return (
     <div>
-      <div>Hello</div>
       <h1>{spot.name}</h1>
       <div>{spot.city}, {spot.state}, {spot.country}</div>
       <div>
@@ -36,7 +35,7 @@ const SpotById = () => {
       </div>
       <div>{spot.description}</div>
       <div>${spot.price}</div>
-      {/* <button onClick={editSpot}>Edit Spot</button> */}
+      <button onClick={editSpot}>Edit Spot</button>
       <button onClick={deleteSpot}>Delete Spot</button>
     </div>
 

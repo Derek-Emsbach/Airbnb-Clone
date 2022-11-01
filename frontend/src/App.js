@@ -28,7 +28,7 @@ function App() {
         <Route exact path='/signup'>
           <SignupFormPage />
         </Route>
-        <Route exact path={['/', 'spots']}>
+        <Route exact path={['/', '/spots']}>
           <SpotsBrowser />
         </Route>
         <Route exact path='/spots/:spotId'>
