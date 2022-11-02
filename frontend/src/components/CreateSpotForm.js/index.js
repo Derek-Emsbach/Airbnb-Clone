@@ -11,7 +11,7 @@ const CreateSpotForm = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  // const [ownerId, setOwnerId] = useState()
+
   const [address, setAddress] = useState('')
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
@@ -29,7 +29,6 @@ const CreateSpotForm = () => {
     e.preventDefault()
 
     const payload = {
-      // ownerId,
       address,
       city,
       state,

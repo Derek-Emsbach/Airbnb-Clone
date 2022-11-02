@@ -10,17 +10,17 @@ const SpotDelete = () => {
   const spot = useSelector((state) => state.spots[spotId])
   // const sessionUser = useSelector((state) => state.session.user)
 
-  console.log(spotId)
+  console.log(spot)
 
   const handleDelete = (e) => {
     e.preventDefault()
-    dispatch(deleteSpot(spot.id))
+    dispatch(deleteSpot(spotId))
     history.push('/spots')
   }
 
   const handleCancel = (e) => {
     e.preventDefault()
-    history.push(`/spots/${spot}`)
+    history.push(`/spots/${spotId}`)
   }
 
   return (

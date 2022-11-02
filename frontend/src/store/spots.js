@@ -109,11 +109,12 @@ const spotsReducer = (state = initialState, action) => {
       return newStateAdd
     case EDIT_SPOT:
       let newStateEdit = { ...state }
-      newStateEdit[action.spotId] = action.spot
+      newStateEdit[action.spots.id] = action.spots
       return newStateEdit
     case DELETE_SPOT:
       let newStateDelete = { ...state }
-      delete newStateDelete[action.spotId]
+      console.log(action.spots)
+      delete newStateDelete[action.spots]
       return newStateDelete
     default:
       return state

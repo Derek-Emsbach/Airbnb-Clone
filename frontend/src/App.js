@@ -31,17 +31,17 @@ function App() {
         <Route exact path={['/', '/spots']}>
           <SpotsBrowser />
         </Route>
-        <Route exact path='/spots/:spotId'>
-          <SpotById />
-        </Route>
         <Route exact path='/spots/create'>
           <CreateSpotForm />
         </Route>
-        {/* <Route>
-          <SpotEditForm exact path='/spots/:spotId' />
-        </Route> */}
-        <Route>
-          <SpotDelete exact path='/spots/:spotId/delete' />
+        <Route exact path='/spots/:spotId/edit'>
+          <SpotEditForm />
+        </Route>
+        <Route exact path='/spots/:spotId/delete'>
+          <SpotDelete />
+        </Route>
+        <Route exact path='/spots/:spotId'>
+          <SpotById />
         </Route>
       </Switch>
     )}
