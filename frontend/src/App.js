@@ -10,6 +10,7 @@ import SpotsBrowser from './components/Spots/index';
 import SpotById from './components/SpotsById/SpotById';
 import SpotEditForm from './components/SpotsEdit/SpotEditForm'
 import SpotDelete from './components/SpotsDelete/SpotDelete'
+import CreateReview from './components/Reviews/CreateReview'
 
 function App() {
   const dispatch = useDispatch()
@@ -39,6 +40,9 @@ function App() {
         </Route>
         <Route exact path='/spots/:spotId/delete'>
           <SpotDelete />
+        </Route>
+        <Route exact path='/spots/:spotId/reviews'>
+          <CreateReview />
         </Route>
         <Route exact path='/spots/:spotId'>
           <SpotById />

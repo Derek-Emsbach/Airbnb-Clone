@@ -4,22 +4,22 @@ export const LOAD_REVIEWS = "reviews/LOAD_REVIEWS"
 export const ADD_REVIEW = "reviews/ADD_REVIEW"
 export const REMOVE_REVIEW = "reviews/REMOVE_REVIEW"
 
-const load = (reviews) => {
+const load = reviews => ({
   type: LOAD_REVIEWS,
   reviews
-}
+})
 
-const add = (review) => {
+const add = review => ({
   type: ADD_REVIEW,
   review
-}
+})
 
-const remove = (review) => {
+const remove = reviewId => ({
   type: REMOVE_REVIEW,
-  review
-}
+  reviewId
+})
 
-const getReviews = (spotId) => async (dispatch) => {
+export const getReviews = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
 
   if(response.ok) {
@@ -28,7 +28,7 @@ const getReviews = (spotId) => async (dispatch) => {
   }
 }
 
-const addReview = (spotId, review) => async (dispatch) => {
+export const addReview = (spotId, review) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
     method: "POST",
 		headers: {
@@ -44,7 +44,7 @@ const addReview = (spotId, review) => async (dispatch) => {
   }
 }
 
-const deleteReview = (reviewId) => async (dispatch) => {
+export const deleteReview = (reviewId) => async (dispatch) => {
   const response = await csrfFetch(`/api/reviews/${reviewId}`, {
     method: "DELETE"
   })
@@ -72,9 +72,11 @@ const reviewReducer = (state = initialState, action) => {
       newState[action.review.id] = action.review
       return newState
     case REMOVE_REVIEW:
-      newState[action.review.id]
+      delete newState[action.reviewId]
       return newState
     default:
       return state
   }
 }
+
+export default reviewReducer

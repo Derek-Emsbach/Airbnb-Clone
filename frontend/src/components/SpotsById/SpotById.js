@@ -26,6 +26,11 @@ const SpotById = () => {
     history.push(path);
   };
 
+  const reviewSpot = () => {
+    let path = `/spots/${spotId}/reviews`;
+    history.push(path);
+  }
+
   return (
     <div>
       <h1>{spot.name}</h1>
@@ -37,6 +42,7 @@ const SpotById = () => {
       <div>${spot.price}</div>
       <button onClick={editSpot}>Edit Spot</button>
       <button onClick={deleteSpot}>Delete Spot</button>
+      <button onClick={reviewSpot}>Review Spot</button>
     </div>
 
   )
