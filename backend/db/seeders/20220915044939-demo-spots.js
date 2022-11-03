@@ -12,6 +12,7 @@ const spots = [
     name: "Jazz House",
     description: "Stay near the French Quarter.",
     price: 230.00,
+    avgRating: 3,
     previewImage: "https://gonola.com/images/2018/11/Bywater_PaulBroussard-500x334.jpg"
   },
   {
@@ -25,6 +26,7 @@ const spots = [
     name: "Victorian Stacked House",
     description: "Nestled in SF.",
     price: 400.00,
+    avgRating: 5,
     previewImage: "https://assets.rbl.ms/29516544/origin.jpg"
   },
   {
@@ -38,6 +40,7 @@ const spots = [
     name: "Cozy Forest House",
     description: "Live amongst the wild.",
     price: 215.00,
+    avgRating: 5,
     previewImage: "https://coolmaterial.com/wp-content/uploads/2020/06/William-Kaven-Architecture-Royal-House-1000x600.jpg"
   },
 ]

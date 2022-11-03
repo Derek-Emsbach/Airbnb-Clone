@@ -26,6 +26,7 @@ const SpotsBrowser = () => {
             </div>
             <div className="spot-description">{spot.city}, {spot.state}</div>
             <div>${spot.price} night</div>
+            <div>Rating: {spot.avgRating}</div>
           </li>
         ))}
       </ul>

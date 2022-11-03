@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/current', requireAuth, restoreUser, async(req, res)=>{
     const userId = req.user.id
-   
+
     const reviews = await Review.findAll({
         where: {
             userId: req.user.id
@@ -89,19 +89,6 @@ router.delete("/:reviewId", requireAuth, async (req, res) => {
   res.json({
     message: "Successfully deleted",
     statusCode: 200,
-  });
-});
-
-//Delete a Spot
-router.delete('/:id', [restoreUser, requireAuth], async (req, res) => {
-  const { id } = req.params;
-
-  const spot = await Spot.findByPk(id);
-  await spot.destroy();
-
-  res.json({
-      message: "Successfully deleted",
-      statusCode: 200
   });
 });
 
