@@ -4,14 +4,16 @@ export const LOAD_REVIEWS = "reviews/LOAD_REVIEWS"
 export const ADD_REVIEW = "reviews/ADD_REVIEW"
 export const REMOVE_REVIEW = "reviews/REMOVE_REVIEW"
 
-const load = reviews => ({
+const load = (reviews, spotId) => ({
   type: LOAD_REVIEWS,
-  reviews
+  reviews,
+  spotId
 })
 
-const add = review => ({
+const add = (reviews, spotId) => ({
   type: ADD_REVIEW,
-  review
+  reviews,
+  spotId
 })
 
 const remove = reviewId => ({
@@ -25,6 +27,7 @@ export const getReviews = (spotId) => async (dispatch) => {
   if(response.ok) {
     const reviews = await response.json()
     dispatch(load(reviews, spotId))
+    return reviews
   }
 }
 
@@ -39,7 +42,7 @@ export const addReview = (spotId, review) => async (dispatch) => {
 
   if(response.ok) {
     const data = await response.json()
-    dispatch(add(data))
+    dispatch(add(data, spotId))
     return data
   }
 }
@@ -60,20 +63,15 @@ const reviewReducer = (state = initialState, action) => {
   let newState = { ...state }
   switch (action.type) {
     case LOAD_REVIEWS:
-      const newReviews = {}
       action.reviews.forEach(review => {
-        newReviews[review.id] = review
+        newState[review.id] = review
       });
-      return {
-        ...state,
-        newReviews
-      }
+      return newState
     case ADD_REVIEW:
-      newState[action.review.id] = action.review
+      newState[action.reviews.id] = action.reviews
       return newState
     case REMOVE_REVIEW:
       delete newState[action.reviewId]
-      return newState
     default:
       return state
   }

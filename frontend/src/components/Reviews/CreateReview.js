@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useHistory, useParams } from "react-router-dom"
 import { addReview } from '../../store/reviews'
 

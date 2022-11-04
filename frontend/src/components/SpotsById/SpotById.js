@@ -2,18 +2,20 @@ import { useHistory, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getSpotById } from '../../store/spots';
+import ReviewBySpotId from '../Reviews/ReviewBySpotId';
+import { getReviews } from '../../store/reviews';
 
 const SpotById = () => {
   const dispatch = useDispatch()
   const {spotId} = useParams()
   const history = useHistory()
   const spot = useSelector((state) => state.spots[spotId])
-  // const sessionUser = useSelector((state) => state.sessionUser.user)
+
+
   useEffect(() => {
     dispatch(getSpotById(spotId));
   }, [dispatch, spotId]);
-  // console.log(spotId)
-  // console.log(spot)
+
 
   const editSpot = () => {
 		let path = `/spots/${spotId}/edit`;
@@ -40,6 +42,8 @@ const SpotById = () => {
       </div>
       <div>{spot.description}</div>
       <div>${spot.price}</div>
+      <div>{spot.avgRating}</div>
+      {/* <ReviewBySpotId /> */}
       <button onClick={editSpot}>Edit Spot</button>
       <button onClick={deleteSpot}>Delete Spot</button>
       <button onClick={reviewSpot}>Review Spot</button>
