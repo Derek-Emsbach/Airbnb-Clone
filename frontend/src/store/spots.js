@@ -43,9 +43,9 @@ export const getSpotById = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${id}`)
 
   if(response.ok) {
-    const detail = await response.json()
-    dispatch(addSpot(detail))
-    return detail
+    const {spots} = await response.json()
+    dispatch(addSpot(spots))
+    return spots
   }
 }
 
