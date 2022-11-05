@@ -2,7 +2,7 @@ import { csrfFetch } from "./csrf"
 
 export const LOAD_REVIEWS = "spots/LOAD_REVIEWS"
 export const ADD_REVIEW = "spots/ADD_REVIEW"
-export const REMOVE_REVIEW = "spots/REMOVE_REVIEW"
+export const REMOVE_REVIEW = "review/REMOVE_REVIEW"
 
 const load = (reviews, spotId) => {
   return {

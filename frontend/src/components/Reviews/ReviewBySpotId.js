@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { getReviews, deleteReview } from "../../store/reviews";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './ReviewBySpotId.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 const ReviewBySpotId = ({spot}) => {
   const history = useHistory()
@@ -35,7 +37,10 @@ const ReviewBySpotId = ({spot}) => {
             {/* <div>{review.User.firstName}</div> */}
             <div>{review.createdAt.slice(0, 10)}</div>
             <div>{review.review} </div>
-            <div>{review.stars}</div>
+            <div>
+            <FontAwesomeIcon className="star" icon={faStar} />
+              {review.stars}
+              </div>
             {review.userId === sessionUser?.id && (
 							<button onClick={() => handleDeleteClick(review.id)}>
 								Delete Review

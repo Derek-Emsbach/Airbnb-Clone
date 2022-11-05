@@ -11,12 +11,16 @@ import SpotById from './components/SpotsById/SpotById';
 import SpotEditForm from './components/SpotsEdit/SpotEditForm'
 import SpotDelete from './components/SpotsDelete/SpotDelete'
 import CreateReview from './components/Reviews/CreateReview'
+import { getSpots } from './store/spots'
+import { getReviews } from "./store/reviews";
 
 function App() {
   const dispatch = useDispatch()
   const [isLoaded, setIsLoaded] = useState(false)
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true))
+    dispatch(getSpots())
+    dispatch(getReviews())
   }, [dispatch])
   return isLoaded && (
     <>

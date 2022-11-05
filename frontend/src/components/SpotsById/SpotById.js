@@ -4,7 +4,9 @@ import { useEffect } from 'react';
 import { getSpotById } from '../../store/spots';
 import ReviewBySpotId from '../Reviews/ReviewBySpotId';
 import { getReviews } from '../../store/reviews';
-import Dev from '../dev/dev';
+import './SpotById.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 const SpotById = () => {
   const dispatch = useDispatch()
@@ -46,7 +48,10 @@ const SpotById = () => {
       </div>
       <div>{singleSpot.description}</div>
       <div>${singleSpot.price}</div>
-      <div>{singleSpot.avgRating}</div>
+      <div>
+      <FontAwesomeIcon className="star" icon={faStar} />
+        {singleSpot.avgRating}
+        </div>
       <br></br>
       <h3>Reviews</h3>
       <ReviewBySpotId spot={singleSpot} />

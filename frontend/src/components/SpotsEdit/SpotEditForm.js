@@ -22,6 +22,7 @@ const SpotEditForm = () => {
   const [description, setDescription] = useState(spot.description)
   const [price, setPrice] = useState(spot.price)
   const [previewImage, setPreviewImage] = useState(spot.previewImage)
+  const sessionUser = useSelector((state) => state.session.user.id)
 
   useEffect(() => {
     dispatch(getSpots())
@@ -50,16 +51,18 @@ const SpotEditForm = () => {
     }
   }
 
-
-  // const handleEdit = async (e) => {
-  //   e.preventDefault()
-  //   dispatch(editSpot(spot.id))
-  //   history.push('/spots')
-  // }
-
   const handleCancel = (e) => {
     e.preventDefault()
     history.push(`/spots/${spotId}`)
+  }
+
+  if (sessionUser !== spot.ownerId) {
+    return (
+      <div>
+        <div> You cannot edit a spot that is not yours.</div>
+        <button onClick={handleCancel}>Cancel</button>
+      </div>
+    );
   }
 
   return (

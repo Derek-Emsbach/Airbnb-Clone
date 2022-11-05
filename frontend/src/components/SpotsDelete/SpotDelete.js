@@ -8,9 +8,8 @@ const SpotDelete = () => {
   const {spotId} = useParams()
   const history = useHistory()
   const spot = useSelector((state) => state.spots[spotId])
-  // const sessionUser = useSelector((state) => state.session.user)
+  const sessionUser = useSelector((state) => state.session.user.id)
 
-  console.log(spot)
 
   const handleDelete = (e) => {
     e.preventDefault()
@@ -21,6 +20,15 @@ const SpotDelete = () => {
   const handleCancel = (e) => {
     e.preventDefault()
     history.push(`/spots/${spotId}`)
+  }
+
+  if (sessionUser !== spot.ownerId) {
+    return (
+      <div>
+        <div> You cannot delete a spot is not yours.</div>
+        <button onClick={handleCancel}>Cancel</button>
+      </div>
+    );
   }
 
   return (
