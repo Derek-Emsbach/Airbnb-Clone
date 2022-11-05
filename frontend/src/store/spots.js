@@ -22,9 +22,9 @@ const updateSpot = spots => ({
   spots
 })
 
-const deleteSpots = spots => ({
+const deleteSpots = spotId => ({
   type: DELETE_SPOT,
-  spots
+  spotId
 })
 
 //? Thunks
@@ -83,6 +83,9 @@ export const editSpot = (spotId, spot) => async (dispatch) => {
 export const deleteSpot = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: "DELETE",
+    headers:{
+      "Content-Type": "application/json",
+  }
   })
   if(response.ok){
     dispatch(deleteSpots(spotId))
