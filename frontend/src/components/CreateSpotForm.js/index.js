@@ -1,7 +1,7 @@
 import { createSpot } from "../../store/spots"
 import './CreateSpotForm.css'
 
-const { useState } = require("react")
+const { useState, useEffect } = require("react")
 const { useDispatch } = require("react-redux")
 const { useHistory } = require("react-router-dom")
 
@@ -23,6 +23,7 @@ const CreateSpotForm = () => {
   const [price, setPrice] = useState('')
   const [avgRating, setAvgRating] = useState('')
   const [previewImage, setPreviewImage] = useState('')
+  const [validationErrors, setValidationErrors] = useState([]);
 
 
   const handleSubmit = async (e) => {
@@ -41,12 +42,73 @@ const CreateSpotForm = () => {
       avgRating: "new",
       previewImage
     }
+    try {
+      let createdSpot = await dispatch(createSpot(payload))
+      // if (createdSpot) {
+        history.push(`/spots/${createdSpot.id}`)
+      // }
 
-    let createdSpot = await dispatch(createSpot(payload))
-    if (createdSpot) {
-      history.push(`/spots/${createdSpot.id}`)
+    } catch(e) {
+      const response = await e.json()
+		console.log(response)
+		const errors = new Set(response.errors)
+		console.log(errors)
+		const errorsArray = Array.from(errors)
+		console.log(errorsArray, "errorsArray")
     }
+    history.push(`/spots`)
   }
+
+  useEffect(() => {
+    const newErrors = [];
+    if (!address) {
+      newErrors.push("Address field is required");
+    }
+    if (!city) {
+      newErrors.push("City field is required");
+    }
+    if (!state) {
+      newErrors.push("State field is required");
+    }
+    if (!country) {
+      newErrors.push("Country field is required");
+    }
+    if (isNaN(lat)) {
+      newErrors.push("Latitude field is not a number");
+    }
+    if (isNaN(lng)) {
+      newErrors.push("Longitude field is not a number");
+    }
+    if (!name) {
+      newErrors.push("Name field is required");
+    }
+    // if (name.length > 50) {
+    // 	newErrors.push("Name field must be less than 50 characters");
+    // }
+    if (!description) {
+      newErrors.push("Description field is required");
+    }
+    if (!price) {
+      newErrors.push("Price field is required");
+    }
+    if (!previewImage) {
+      newErrors.push("Image field is required");
+    }
+
+    setValidationErrors(newErrors);
+  }, [
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price,
+    previewImage,
+  ]);
+
 
   const handleCancelClick = (e) => {
     e.preventDefault();
@@ -57,6 +119,7 @@ const CreateSpotForm = () => {
   return (
     <div>
       <form className="create-spot-form" onSubmit={handleSubmit}>
+        <h2>Tell us about the place you would like to host!</h2>
         <label>Address</label>
         <input
           type="text"
@@ -134,6 +197,10 @@ const CreateSpotForm = () => {
           value={previewImage}
           onChange={(e) => setPreviewImage(e.target.value)}
         />
+        <ul className="errors">
+						{validationErrors.length > 0 &&
+							validationErrors.map((error) => <li key={error}>{error}</li>)}
+					</ul>
         <button type="submit">Create new Spot</button>
         <button type="button" onClick={handleCancelClick}>Cancel</button>
       </form>

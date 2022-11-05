@@ -41,7 +41,6 @@ const SpotById = () => {
   return (
     <div>
       <h1>{singleSpot.name}</h1>
-      {/* <Dev spots={singleSpot} /> */}
       <div>{singleSpot.city}, {singleSpot.state}, {singleSpot.country}</div>
       <div>
         <img src={singleSpot.previewImage} className="singleSpotImg" alt="spot-preview"></img>
