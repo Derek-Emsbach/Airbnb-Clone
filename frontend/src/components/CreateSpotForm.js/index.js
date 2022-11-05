@@ -21,7 +21,7 @@ const CreateSpotForm = () => {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
-  const [avgRating, setAvgRating] = useState('')
+  // const [avgRating, setAvgRating] = useState('')
   const [previewImage, setPreviewImage] = useState('')
   const [validationErrors, setValidationErrors] = useState([]);
 
@@ -50,11 +50,8 @@ const CreateSpotForm = () => {
 
     } catch(e) {
       const response = await e.json()
-		console.log(response)
-		const errors = new Set(response.errors)
-		console.log(errors)
-		const errorsArray = Array.from(errors)
-		console.log(errorsArray, "errorsArray")
+		  const errors = new Set(response.errors)
+      const errorsArray = Array.from(errors)
     }
     history.push(`/spots`)
   }
@@ -82,9 +79,6 @@ const CreateSpotForm = () => {
     if (!name) {
       newErrors.push("Name field is required");
     }
-    // if (name.length > 50) {
-    // 	newErrors.push("Name field must be less than 50 characters");
-    // }
     if (!description) {
       newErrors.push("Description field is required");
     }
