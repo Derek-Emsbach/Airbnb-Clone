@@ -25,9 +25,13 @@ function Navigation({ isLoaded }){
   return (
     <ul>
       <li className="navLinks">
-        <NavLink exact to="/"><img className="logo" src={logo} alt="" /></NavLink>
-        <NavLink exact to='/spots/create'>Become a Host</NavLink>
-        {isLoaded && sessionLinks}
+        <div className="container-left">
+          <NavLink exact to="/"><img className="logo" src={logo} alt="" /></NavLink>
+        </div>
+        <div className="container-right">
+          <NavLink className="become-host" exact to='/spots/create'>Become a Host</NavLink>
+          {isLoaded && sessionLinks}
+        </div>
       </li>
     </ul>
   );

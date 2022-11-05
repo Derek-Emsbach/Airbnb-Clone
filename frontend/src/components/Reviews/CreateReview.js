@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useParams } from "react-router-dom"
 import { addReview } from '../../store/reviews'
 
@@ -8,11 +8,9 @@ const ReviewForm = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const { spotId } = useParams()
-
-  // const sessionUser = useSelector((state) => state.session.user);
-  // console.log(sessionUser)
-  // const userId = useSelector((state) => state.session.user.id)
-  // console.log(userId)
+  const sessionUser = useSelector((state) => state.session.user);
+  const userId = useSelector((state) => state.session.user.id)
+  console.log(userId)
 
   const [stars, setStars] = useState(0)
   const [review, setReview] = useState("")
@@ -21,7 +19,7 @@ const ReviewForm = () => {
     e.preventDefault()
 
     const data = {
-      // userId,
+      userId,
       spotId,
       review,
       stars

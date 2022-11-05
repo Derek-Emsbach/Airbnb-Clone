@@ -33,3 +33,17 @@
   width: 300px;
   /* border-radius: 10px; */
 }
+
+.starRating {
+  display: flex;
+  font-size: 15px;
+}
+
+.star {
+  width: 10px;
+}
+
+.desription-rating-box {
+  display: flex;
+  justify-content: space-between;
+}

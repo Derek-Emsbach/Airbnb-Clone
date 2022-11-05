@@ -2,7 +2,8 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { getSpots } from "../../store/spots"
-// import SpotById from "../SpotsById/SpotById"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 import './Spots.css'
 
 const SpotsBrowser = () => {
@@ -24,9 +25,14 @@ const SpotsBrowser = () => {
                 <img src={spot.previewImage} className="spotImg" alt="preview"></img>
               </ Link>
             </div>
-            <div className="spot-description">{spot.city}, {spot.state}</div>
+            <div className="desription-rating-box">
+              <div className="spot-description">{spot.city}, {spot.state}</div>
+              <div className="starRating">
+                <FontAwesomeIcon className="star" icon={faStar} />
+                <div>{spot.avgRating}</div>
+              </div>
+            </div>
             <div>${spot.price} night</div>
-            <div>Rating: {spot.avgRating}</div>
           </li>
         ))}
       </ul>

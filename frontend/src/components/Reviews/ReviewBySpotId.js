@@ -3,17 +3,17 @@ import { useHistory, useParams } from "react-router-dom"
 import { useEffect } from "react";
 import { getReviews, deleteReview } from "../../store/reviews";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import './ReviewBySpotId.css'
 
 const ReviewBySpotId = ({spot}) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const { spotId } = useParams()
   const reviews = useSelector(state =>state.reviews)
-  console.log(reviews,'reviewws')
+  const sessionUser = useSelector((state) => state.session.user);
 
   const allReviews = Object.values(reviews)
-  console.log(allReviews,'allReviews')
+
   // console.log(reviews)
   // const allReviewsArray = Object.values(reviews).filter((review)=> spotId === review.spotId);
 
@@ -23,9 +23,33 @@ const ReviewBySpotId = ({spot}) => {
 
   const specificReview = allReviews.filter(review =>review.spotId === spot.id)
 
-return (
-  null
+
+	const handleDeleteClick = (id) => {
+		dispatch(deleteReview(id));
+		history.push(`/spots/${spot.id}`);
+	};
+
+  return (specificReview.map(review =>{
+    return <div className="review-box">
+      <br></br>
+            {/* <div>{review.User.firstName}</div> */}
+            <div>{review.createdAt.slice(0, 10)}</div>
+            <div>{review.review} </div>
+            <div>{review.stars}</div>
+            {review.userId === sessionUser?.id && (
+							<button onClick={() => handleDeleteClick(review.id)}>
+								Delete Review
+							</button>
+						)}
+            <br></br>
+    </div>
+})
   )
+
+
+
+
 }
+
 
 export default ReviewBySpotId

@@ -12,14 +12,7 @@ const SpotById = () => {
   const history = useHistory()
   const allSpots = useSelector((state) => state.spots)
   const singleSpot = allSpots[spotId]
-  // const reviews = useSelector(state =>state.reviews)
-  // console.log(reviews, 'reviews')
-  // const allSpotReviews = useSelector((state)=> Object.values(state.reviews))
-  // console.log(allSpotReviews, 'allSpotReviews')
-  // const specificReviews = allSpotReviews.filter((review)=> review.spotId === singleSpot)
-  // console.log(specificReviews, 'reviews')
-  // const reviews = useSelector((state) => state.reviews)
-  // const allReviews = Object.values(reviews)
+  const sessionUser = useSelector((state) => state.session.user);
 
 
   useEffect(() => {
@@ -27,11 +20,11 @@ const SpotById = () => {
     dispatch(getReviews(spotId))
   }, [dispatch, spotId])
 
-  // const editSpot = () => {
-	// 	let path = `/spots/${spotId}/edit`
-	// 	history.push(path)
+  const editSpot = () => {
+		let path = `/spots/${spotId}/edit`
+		history.push(path)
 
-	// }
+	}
 
   const deleteSpot = () => {
     let path = `/spots/${spotId}/delete`
@@ -54,8 +47,10 @@ const SpotById = () => {
       <div>{singleSpot.description}</div>
       <div>${singleSpot.price}</div>
       <div>{singleSpot.avgRating}</div>
-      {/* <ReviewBySpotId spot={singleSpot} /> */}
-      {/* <button onClick={editSpot}>Edit Spot</button> */}
+      <br></br>
+      <h3>Reviews</h3>
+      <ReviewBySpotId spot={singleSpot} />
+      <button onClick={editSpot}>Edit Spot</button>
       <button onClick={deleteSpot}>Delete Spot</button>
       <button onClick={reviewSpot}>Review Spot</button>
     </div>

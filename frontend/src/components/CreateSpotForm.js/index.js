@@ -21,7 +21,7 @@ const CreateSpotForm = () => {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
-  // const [avgRating, setAvgRating] = useState('')
+  const [avgRating, setAvgRating] = useState('')
   const [previewImage, setPreviewImage] = useState('')
 
 
@@ -38,7 +38,7 @@ const CreateSpotForm = () => {
       name,
       description,
       price,
-      // avgRating,
+      avgRating: "new",
       previewImage
     }
 
