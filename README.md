@@ -2,6 +2,10 @@
 
 ![image](https://user-images.githubusercontent.com/37425403/200142486-0e73fa10-81a6-446e-9ddc-5735daaa3972.png)
 
+Live Link: https://airbnb-clone-derek-emsbach.herokuapp.com/
+
+Technolgies: Sequelize, Express, JavaScript, ReactJS, Redux, NodeJS
+
 ## Code Snippet
 
 ![image](https://user-images.githubusercontent.com/37425403/200142532-558f52f0-dc15-4cba-b589-f95f002dffeb.png)
