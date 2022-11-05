@@ -12,11 +12,10 @@ const load = (reviews, spotId) => {
   }
 }
 
-const add = (reviews, spotId) => {
+const add = (reviews) => {
   return {
     type: ADD_REVIEW,
-    reviews,
-    spotId
+    reviews
   }
 
   }
@@ -49,7 +48,7 @@ export const addReview = (spotId, review) => async (dispatch) => {
 
   if(response.ok) {
     const data = await response.json()
-    dispatch(add(data, spotId))
+    dispatch(add(data))
     return data
   }
 }
@@ -82,6 +81,7 @@ const reviewReducer = (state = initialState, action) => {
       return newState
     case REMOVE_REVIEW:
       delete newState[action.reviewId]
+      return newState
     default:
       return state
   }
