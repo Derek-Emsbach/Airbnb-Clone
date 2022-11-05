@@ -1,25 +1,32 @@
 import { csrfFetch } from "./csrf"
 
-export const LOAD_REVIEWS = "reviews/LOAD_REVIEWS"
-export const ADD_REVIEW = "reviews/ADD_REVIEW"
-export const REMOVE_REVIEW = "reviews/REMOVE_REVIEW"
+export const LOAD_REVIEWS = "spots/LOAD_REVIEWS"
+export const ADD_REVIEW = "spots/ADD_REVIEW"
+export const REMOVE_REVIEW = "spots/REMOVE_REVIEW"
 
-const load = (reviews, spotId) => ({
-  type: LOAD_REVIEWS,
-  reviews,
-  spotId
-})
+const load = (reviews, spotId) => {
+  return {
+    type: LOAD_REVIEWS,
+    reviews,
+    spotId
+  }
+}
 
-const add = (reviews, spotId) => ({
-  type: ADD_REVIEW,
-  reviews,
-  spotId
-})
+const add = (reviews, spotId) => {
+  return {
+    type: ADD_REVIEW,
+    reviews,
+    spotId
+  }
 
-const remove = reviewId => ({
-  type: REMOVE_REVIEW,
-  reviewId
-})
+  }
+
+const remove = reviewId => {
+  return {
+    type: REMOVE_REVIEW,
+    reviewId
+  }
+}
 
 export const getReviews = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
@@ -49,7 +56,10 @@ export const addReview = (spotId, review) => async (dispatch) => {
 
 export const deleteReview = (reviewId) => async (dispatch) => {
   const response = await csrfFetch(`/api/reviews/${reviewId}`, {
-    method: "DELETE"
+    method: "DELETE",
+    headers:{
+      'Content-Type':'application/json'
+    }
   })
 
   if(response.ok) {
@@ -63,10 +73,10 @@ const reviewReducer = (state = initialState, action) => {
   let newState = { ...state }
   switch (action.type) {
     case LOAD_REVIEWS:
-      action.reviews.forEach(review => {
+      action.reviews.spotReviews.forEach(review => {
         newState[review.id] = review
       });
-      return newState
+    return newState
     case ADD_REVIEW:
       newState[action.reviews.id] = action.reviews
       return newState

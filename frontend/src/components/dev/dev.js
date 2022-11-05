@@ -5,27 +5,29 @@ import { getReviews, deleteReview } from "../../store/reviews";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
-const ReviewBySpotId = ({spot}) => {
+const Dev = ({spot}) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const { spotId } = useParams()
   const reviews = useSelector(state =>state.reviews)
-  console.log(reviews,'reviewws')
+  console.log(reviews, 'reviews')
+  // const allSpotReviews = useSelector((state)=> Object.values(state.reviews.spotReviews))
+  // console.log(allSpotReviews, 'allSpotReviews')
+  // const specificReviews = allSpotReviews.filter((review)=> review.spotId === spot.id)
+  // console.log(specificReviews, 'reviews')
 
-  const allReviews = Object.values(reviews)
-  console.log(allReviews,'allReviews')
-  // console.log(reviews)
-  // const allReviewsArray = Object.values(reviews).filter((review)=> spotId === review.spotId);
 
   useEffect(() => {
     dispatch(getReviews(spotId));
 	}, [dispatch]);
 
-  const specificReview = allReviews.filter(review =>review.spotId === spot.id)
+  // const specificReview = allReviews.filter(review =>review.spotId === spot.id)
 
 return (
-  null
+  <div>
+    <h1>Test</h1>
+  </div>
   )
 }
 
-export default ReviewBySpotId
+export default Dev
