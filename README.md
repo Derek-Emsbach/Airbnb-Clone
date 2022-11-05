@@ -1,5 +1,13 @@
 # `Airbnb Clone`
 
+![image](https://user-images.githubusercontent.com/37425403/200142486-0e73fa10-81a6-446e-9ddc-5735daaa3972.png)
+
+## Code Snippet
+
+![image](https://user-images.githubusercontent.com/37425403/200142532-558f52f0-dc15-4cba-b589-f95f002dffeb.png)
+
+This project really built up my confidence in working with a bigger codebase. I think working on this component above was a good test of using the Redux store as well as nested comonents. It was extremely satifying to having these things render and then work properly once I figured it out!
+
 ## Database Schema Design
 
 ![DB-Diagram](./z-db-diagram/DB-Diagram-airbnb.png "DB Diagram")
