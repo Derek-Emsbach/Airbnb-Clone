@@ -186,6 +186,7 @@ const CreateSpotForm = () => {
         /> */}
         <label>Preview Image</label>
         <input
+          required
           type="text"
           placeholder="Please enter Image Link"
           value={previewImage}

@@ -43,11 +43,14 @@ const ReviewBySpotId = ({spot}) => {
               <FontAwesomeIcon className="star" icon={faStar} />
                 {review.stars}
                 </div>
-              {review.userId === sessionUser?.id && (
-                <button onClick={() => handleDeleteClick(review.id)}>
-                  Delete Review
-                </button>
-              )}
+                <div className="deleteButton">
+                  {review.userId === sessionUser?.id && (
+                    <button  onClick={() => handleDeleteClick(review.id)}>
+                      Delete Review
+                    </button>
+
+                  )}
+                </div>
               <br></br>
       </div>
     )

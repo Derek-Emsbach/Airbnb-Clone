@@ -59,18 +59,26 @@ const SpotById = () => {
   return (
     <>
       {spot && (
-        <div>
-          <h1>{spot.name}</h1>
-          <div>{spot.city}, {spot.state}, {spot.country}</div>
+        <div className='container'>
+          <div className='spotName'>
+            <h1>{spot.name}</h1>
+          </div>
+          <div className='spotHeader'>
+          <FontAwesomeIcon className="star" icon={faStar} />
+          {!Number(averageRating) ? null :averageRating }
+          <div className='reviews'>
+            {specificReview.length} reviews
+          </div>
+          <div className='location'>
+            {spot.city}, {spot.state}, {spot.country}
+          </div>
+          </div>
           <div>
             <img src={spot.previewImage} className="singleSpotImg" alt="spot-preview"></img>
           </div>
+          <div className='price'>${spot.price}</div>
+          <br></br>
           <div>{spot.description}</div>
-          <div>${spot.price}</div>
-          <div>
-          <FontAwesomeIcon className="star" icon={faStar} />
-          {!Number(averageRating) ? null :averageRating }
-            </div>
           <br></br>
           <h3>Reviews</h3>
           <ReviewBySpotId spot={spot} />
@@ -78,7 +86,7 @@ const SpotById = () => {
             <button onClick={editSpot}>Edit Spot</button>
           )}
           {sessionUser?.id === spot.ownerId && (
-            <button onClick={deleteSpot}>Delete Spot</button>
+            <button className="deleteButton" onClick={deleteSpot}>Delete Spot</button>
           )}
           {sessionUser?.id && (
             <button onClick={reviewSpot}>Review Spot</button>

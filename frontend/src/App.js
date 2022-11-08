@@ -38,11 +38,11 @@ function App() {
         <Route exact path={['/', '/spots']}>
           <SpotsBrowser />
         </Route>
-        <Route exact path='/spots/:spotId'>
-          <SpotById />
-        </Route>
         <Route exact path='/spots/create'>
           <CreateSpotForm />
+        </Route>
+        <Route exact path='/spots/:spotId'>
+          <SpotById />
         </Route>
         <Route exact path='/spots/:spotId/edit'>
           <SpotEditForm />

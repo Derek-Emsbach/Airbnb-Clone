@@ -5,3 +5,8 @@
 .username {
   font-weight: bold;
 }
+
+.deleteButton {
+  padding-top: 10px;
+  background-color: blanchedalmond;
+}

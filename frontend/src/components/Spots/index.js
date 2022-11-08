@@ -12,6 +12,7 @@ const SpotsBrowser = () => {
 
   const allSpots = useSelector((state) => Object.values(state.spots))
 
+
   useEffect(() => {
     dispatch(getSpots())
   }, [dispatch])
@@ -32,6 +33,7 @@ const SpotsBrowser = () => {
               <div className="desription-rating-box">
                 <div className="spot-description">{spot.city}, {spot.state}</div>
                 <div className="starRating">
+                {/* {!Number(averageRating) ? null :averageRating } */}
                   {/* <FontAwesomeIcon className="star" icon={faStar} />
                   <div>{spot.avgRating?.toFixed(2)}</div> */}
                 </div>

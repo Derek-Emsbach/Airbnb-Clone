@@ -41,6 +41,8 @@ a:visited {
     vertical-align: middle;
     cursor: pointer;
     border-radius: 21px;
+    color: black;
+    background-color: gray;
 }
 
 .profile-dropdown {
