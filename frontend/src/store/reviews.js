@@ -75,7 +75,7 @@ const reviewReducer = (state = initialState, action) => {
       action.reviews.spotReviews.forEach(review => {
         newState[review.id] = review
       });
-    return newState
+      return newState
     case ADD_REVIEW:
       newState[action.reviews.id] = action.reviews
       return newState

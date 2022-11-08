@@ -5,6 +5,7 @@ import { getSpots } from "../../store/spots"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import './Spots.css'
+import reviewReducer from "../../store/reviews";
 
 const SpotsBrowser = () => {
   const dispatch = useDispatch()
@@ -15,29 +16,33 @@ const SpotsBrowser = () => {
     dispatch(getSpots())
   }, [dispatch])
 
-  return (
-    <div className="spots">
-      <ul className="spotList">
-        {allSpots.map((spot) => (
-          <li key={spot.id} className="singleSpot">
-            <div className="cropImg">
-              <Link key={spot.id} to={`/spots/${spot.id}`}>
-                <img src={spot.previewImage} className="spotImg" alt="preview"></img>
-              </ Link>
-            </div>
-            <div className="desription-rating-box">
-              <div className="spot-description">{spot.city}, {spot.state}</div>
-              <div className="starRating">
-                <FontAwesomeIcon className="star" icon={faStar} />
-                <div>{spot.avgRating}</div>
-              </div>
-            </div>
-            <div>${spot.price} night</div>
-          </li>
-        ))}
-      </ul>
 
-    </div>
+
+  return (
+    <>
+      <div className="spots">
+        <ul className="spotList">
+          {allSpots.map((spot) => (
+            <li  className="singleSpot">
+              <div className="cropImg">
+                <Link key={spot.id} to={`/spots/${spot.id}`}>
+                  <img src={spot.previewImage} className="spotImg" alt="preview"></img>
+                </ Link>
+              </div>
+              <div className="desription-rating-box">
+                <div className="spot-description">{spot.city}, {spot.state}</div>
+                <div className="starRating">
+                  {/* <FontAwesomeIcon className="star" icon={faStar} />
+                  <div>{spot.avgRating?.toFixed(2)}</div> */}
+                </div>
+              </div>
+              <div>${spot.price} night</div>
+            </li>
+          ))}
+        </ul>
+
+      </div>
+    </>
   )
 }
 

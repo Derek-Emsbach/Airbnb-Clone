@@ -12,9 +12,13 @@ const SpotById = () => {
   const dispatch = useDispatch()
   const {spotId} = useParams()
   const history = useHistory()
-  const allSpots = useSelector((state) => state.spots)
-  const singleSpot = allSpots[spotId]
   const sessionUser = useSelector((state) => state.session.user);
+  const spots = useSelector(state =>{
+    return state.spots
+  })
+  const reviews = useSelector(state =>state.reviews)
+
+  const spot = spots[spotId]
 
 
   useEffect(() => {
@@ -38,26 +42,50 @@ const SpotById = () => {
     history.push(path);
   }
 
+  const allReviews = Object.values(reviews)
+
+  const specificReview = allReviews.filter(review =>review.spotId === spot.id)
+
+  let allStars =specificReview.map(review => review.stars)
+
+  let rate = allStars.reduce(function(sum, star){
+    const avg = (sum+star)
+    return avg
+  },0)
+
+  let averageRating = Number(rate/specificReview.length).toFixed(2)
+
+
   return (
-    <div>
-      <h1>{singleSpot.name}</h1>
-      <div>{singleSpot.city}, {singleSpot.state}, {singleSpot.country}</div>
-      <div>
-        <img src={singleSpot.previewImage} className="singleSpotImg" alt="spot-preview"></img>
-      </div>
-      <div>{singleSpot.description}</div>
-      <div>${singleSpot.price}</div>
-      <div>
-      <FontAwesomeIcon className="star" icon={faStar} />
-        {singleSpot.avgRating}
+    <>
+      {spot && (
+        <div>
+          <h1>{spot.name}</h1>
+          <div>{spot.city}, {spot.state}, {spot.country}</div>
+          <div>
+            <img src={spot.previewImage} className="singleSpotImg" alt="spot-preview"></img>
+          </div>
+          <div>{spot.description}</div>
+          <div>${spot.price}</div>
+          <div>
+          <FontAwesomeIcon className="star" icon={faStar} />
+          {!Number(averageRating) ? null :averageRating }
+            </div>
+          <br></br>
+          <h3>Reviews</h3>
+          <ReviewBySpotId spot={spot} />
+          {sessionUser?.id === spot.ownerId && (
+            <button onClick={editSpot}>Edit Spot</button>
+          )}
+          {sessionUser?.id === spot.ownerId && (
+            <button onClick={deleteSpot}>Delete Spot</button>
+          )}
+          {sessionUser?.id && (
+            <button onClick={reviewSpot}>Review Spot</button>
+          )}
         </div>
-      <br></br>
-      <h3>Reviews</h3>
-      <ReviewBySpotId spot={singleSpot} />
-      <button onClick={editSpot}>Edit Spot</button>
-      <button onClick={deleteSpot}>Delete Spot</button>
-      <button onClick={reviewSpot}>Review Spot</button>
-    </div>
+      )}
+    </>
 
   )
 }

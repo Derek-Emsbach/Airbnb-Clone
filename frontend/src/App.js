@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useParams } from 'react-router-dom';
 import LoginFormPage from './components/LoginFormPage';
 import Navigation from './components/Navigation';
 import SignupFormPage from './components/SignupFormPage';
@@ -11,17 +11,19 @@ import SpotById from './components/SpotsById/SpotById';
 import SpotEditForm from './components/SpotsEdit/SpotEditForm'
 import SpotDelete from './components/SpotsDelete/SpotDelete'
 import CreateReview from './components/Reviews/CreateReview'
-import { getSpots } from './store/spots'
+import { getSpots, getSpotById } from './store/spots'
 import { getReviews } from "./store/reviews";
 
 function App() {
   const dispatch = useDispatch()
+  const {spotId} = useParams()
   const [isLoaded, setIsLoaded] = useState(false)
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true))
     dispatch(getSpots())
     dispatch(getReviews())
-  }, [dispatch])
+    dispatch(getSpotById(spotId))
+  }, [dispatch, spotId])
   return isLoaded && (
     <>
     <Navigation isLoaded={isLoaded} />
@@ -36,6 +38,9 @@ function App() {
         <Route exact path={['/', '/spots']}>
           <SpotsBrowser />
         </Route>
+        <Route exact path='/spots/:spotId'>
+          <SpotById />
+        </Route>
         <Route exact path='/spots/create'>
           <CreateSpotForm />
         </Route>
@@ -47,9 +52,6 @@ function App() {
         </Route>
         <Route exact path='/spots/:spotId/reviews'>
           <CreateReview />
-        </Route>
-        <Route exact path='/spots/:spotId'>
-          <SpotById />
         </Route>
       </Switch>
     )}

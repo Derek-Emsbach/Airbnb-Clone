@@ -39,11 +39,11 @@ export const getSpots = () => async dispatch => {
   }
 }
 
-export const getSpotById = (id) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${id}`)
+export const getSpotById = (spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`)
 
   if(response.ok) {
-    const {spots} = await response.json()
+    const spots = await response.json()
     dispatch(addSpot(spots))
     return spots
   }
@@ -59,7 +59,6 @@ export const createSpot = (data) => async (dispatch) => {
   });
   if (response.ok) {
     const spot = await response.json();
-    console.log(spot, 'Spot Create')
     dispatch(addSpot(spot));
     return spot;
   }
@@ -96,9 +95,10 @@ export const deleteSpot = (spotId) => async (dispatch) => {
 const initialState = {}
 
 const spotsReducer = (state = initialState, action) => {
+  let newState = { ...state }
   switch (action.type) {
     case GET_ALL_SPOTS:
-      const newState = {}
+      // const newState = {}
       action.spots.forEach(spot => {
         newState[spot.id] = spot
       })
@@ -107,17 +107,17 @@ const spotsReducer = (state = initialState, action) => {
         ...newState
       }
     case ADD_SPOT:
-      let newStateAdd = { ...state }
-      newStateAdd[action.spots.id] = action.spots
-      return newStateAdd
+      // let newStateAdd = { ...state }
+      newState[action.spots.id] = action.spots
+      return newState
     case EDIT_SPOT:
-      let newStateEdit = { ...state }
-      newStateEdit[action.spots.id] = action.spots
-      return newStateEdit
+      // let newStateEdit = { ...state }
+      newState[action.spots.id] = action.spots
+      return newState
     case DELETE_SPOT:
-      let newStateDelete = { ...state }
-      delete newStateDelete[action.spotId]
-      return newStateDelete
+      // let newStateDelete = { ...state }
+      delete newState[action.spotId]
+      return newState
     default:
       return state
   }

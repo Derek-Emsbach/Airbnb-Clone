@@ -29,7 +29,9 @@ function Navigation({ isLoaded }){
           <NavLink exact to="/"><img className="logo" src={logo} alt="" /></NavLink>
         </div>
         <div className="container-right">
+        {sessionUser?.id && (
           <NavLink className="become-host" exact to='/spots/create'>Become a Host</NavLink>
+          )}
           {isLoaded && sessionLinks}
         </div>
       </li>

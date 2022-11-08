@@ -14,7 +14,6 @@ const ReviewBySpotId = ({spot}) => {
   const reviews = useSelector(state =>state.reviews)
   const sessionUser = useSelector((state) => state.session.user);
 
-  const allReviews = Object.values(reviews)
 
   // console.log(reviews)
   // const allReviewsArray = Object.values(reviews).filter((review)=> spotId === review.spotId);
@@ -23,31 +22,35 @@ const ReviewBySpotId = ({spot}) => {
     dispatch(getReviews(spotId));
 	}, [dispatch]);
 
+  const allReviews = Object.values(reviews)
   const specificReview = allReviews.filter(review =>review.spotId === spot.id)
-
 
 	const handleDeleteClick = (id) => {
 		dispatch(deleteReview(id));
 		history.push(`/spots/${spot.id}`);
 	};
 
+
   return (specificReview.map(review =>{
-    return <div className="review-box">
-      <br></br>
-            {/* <div>{review.User.firstName}</div> */}
-            <div>{review.createdAt.slice(0, 10)}</div>
-            <div>{review.review} </div>
-            <div>
-            <FontAwesomeIcon className="star" icon={faStar} />
-              {review.stars}
-              </div>
-            {review.userId === sessionUser?.id && (
-							<button onClick={() => handleDeleteClick(review.id)}>
-								Delete Review
-							</button>
-						)}
-            <br></br>
-    </div>
+    return (
+      <div className="review-box">
+        <br></br>
+              <div className="username">{review?.User?.firstName}</div>
+              <br></br>
+              <div>{review.createdAt.slice(0, 10)}</div>
+              <div>{review.review} </div>
+              <div>
+              <FontAwesomeIcon className="star" icon={faStar} />
+                {review.stars}
+                </div>
+              {review.userId === sessionUser?.id && (
+                <button onClick={() => handleDeleteClick(review.id)}>
+                  Delete Review
+                </button>
+              )}
+              <br></br>
+      </div>
+    )
 })
   )
 

@@ -10,7 +10,7 @@ const ReviewForm = () => {
   const { spotId } = useParams()
   const sessionUser = useSelector((state) => state.session.user);
   const userId = useSelector((state) => state.session.user.id)
-  console.log(userId)
+
 
   const [stars, setStars] = useState(0)
   const [review, setReview] = useState("")
@@ -47,6 +47,7 @@ const ReviewForm = () => {
           type="textarea"
           placeholder="write about your experience here..."
           value={review}
+          required
           onChange={(e) => setReview(e.target.value)}
           />
         <label>Rate your experience</label>
@@ -54,6 +55,9 @@ const ReviewForm = () => {
           type="number"
           placeholder="enter rating..."
           value={stars}
+          min={0}
+          max={5}
+          required
           onChange={(e) => setStars(e.target.value)}
           />
         <button type="submit">Create Review</button>

@@ -1,3 +1,7 @@
 .review-box {
   padding: 20px;
 }
+
+.username {
+  font-weight: bold;
+}
