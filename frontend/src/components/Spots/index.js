@@ -21,29 +21,31 @@ const SpotsBrowser = () => {
 
   return (
     <>
-      <div className="spots">
-        <ul className="spotList">
-          {allSpots.map((spot) => (
-            <li  className="singleSpot">
-              <div className="cropImg">
-                <Link key={spot.id} to={`/spots/${spot.id}`}>
-                  <img src={spot.previewImage} className="spotImg" alt="preview"></img>
-                </ Link>
-              </div>
-              <div className="desription-rating-box">
-                <div className="spot-description">{spot.city}, {spot.state}</div>
-                <div className="starRating">
-                {/* {!Number(averageRating) ? null :averageRating } */}
-                  {/* <FontAwesomeIcon className="star" icon={faStar} />
-                  <div>{spot.avgRating?.toFixed(2)}</div> */}
+      {allSpots &&(
+        <div className="spots">
+          <ul className="spotList">
+            {allSpots.map((spot) => (
+              <li  className="singleSpot">
+                <div className="cropImg">
+                  <Link key={spot.id} to={`/spots/${spot.id}`}>
+                    <img src={spot.previewImage} className="spotImg" alt="preview"></img>
+                  </ Link>
                 </div>
-              </div>
-              <div>${spot.price} night</div>
-            </li>
-          ))}
-        </ul>
+                <div className="desription-rating-box">
+                  <div className="spot-description">{spot.city}, {spot.state}</div>
+                  <div className="starRating">
+                  {/* {!Number(averageRating) ? null :averageRating } */}
+                    {/* <FontAwesomeIcon className="star" icon={faStar} />
+                    <div>{spot.avgRating?.toFixed(2)}</div> */}
+                  </div>
+                </div>
+                <div>${spot.price} night</div>
+              </li>
+            ))}
+          </ul>
 
-      </div>
+        </div>
+      )}
     </>
   )
 }
